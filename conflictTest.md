@@ -1,1 +1,1 @@
-This is my conflict
+This is my conflict with changes from github
