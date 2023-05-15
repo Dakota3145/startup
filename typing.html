@@ -15,39 +15,32 @@
       <h2>Dakota Stevens</h2>
     </header>
     <main>
-      <table width="100%">
-        <tr width="100%" style="display: flex; justify-content: center;">
-          <td width="66%"></td>
-          <td>
-            <a href="/">Dave - Logout</a>
-          </td>
-        </tr>
-        <tr width="100%" style="display: flex; justify-content: center;">
-            <td width="33%">
-              <p>Database Data(Leaderboard)</p>
-              <ol>
-                <li>Henry: 45 WPM</li>
-                <li>Sam: 40 WPM</li>
-                <li>Josh: 35 WPM</li>
-                <li>Sarah: 30 WPM</li>
-                <li>Jeremy: 20 WPM</li>
-              </ol>
-            </td>
-            <td width="33%">
-                <p>Level: 30 WPM</p>
-                <p>This is a long sentence</p>
-                <input type="text" id="typeInput" placeholder="Type the words you see"/>
-                <button>Check Input</button>
-            </td>
-            <td>
-              <p>WebSocket Data(Notifications)</p>
-              <ul>
-                <li>Sarah just got 30 WPM!</li>
-                <li>Jost just got 35 WPM!</li>
-              </ul>
-            </td>
-        </tr>
-      </table>
+      <div class="wrapper">
+        <a class="logout" href="/">Dave - Logout</a>
+        <div class="leaderboard">
+          <p>Database Data(Leaderboard)</p>
+          <ol>
+            <li>Henry: 45 WPM</li>
+            <li>Sam: 40 WPM</li>
+            <li>Josh: 35 WPM</li>
+            <li>Sarah: 30 WPM</li>
+            <li>Jeremy: 20 WPM</li>
+          </ol>
+        </div>
+        <div class="level">
+          <p>Level: 30 WPM</p>
+          <p>This is a long sentence</p>
+          <input type="text" id="typeInput" placeholder="Type the words you see"/>
+          <button>Check Input</button>
+        </div>
+        <div class="notifications">
+          <p>WebSocket Data(Notifications)</p>
+          <ul>
+            <li>Sarah just got 30 WPM!</li>
+            <li>Jost just got 35 WPM!</li>
+          </ul>
+        </div>
+      </div>
     </main>
     <footer>
       <a href="https://github.com/Dakota3145/startup">Github</a>
