@@ -6,6 +6,9 @@ I learned that VS Code does NOT play nice if you try to use a github account tha
 
 ## HTML
 
+### Things I learned while working on the HTML files
+The biggest thing that I learned is that if you want to have multiple items on the same horizontal space, use a table. Another thing I learned is that I thought that by default, elements would occupy 100% of the width of the screen. I had to look online and add in style to my table to have it cover 100% of the screen's width. I also didn't think that centering a div horizontally would take very long, but I had to go through about 4-5 different solutions before I found one that worked. It was also surprising that hyperlinks within the same website don't need the entire website link, you can just say href="index.html" which I thought was really cool. I also learned that the production.pem is extremely picky about where you can call it from. It took me awhile to figure out that you're project has to be in the same folder as the production.pem for you to be allowed to call the production.pem file.
+
 ### Elements
 `<html>` - represents the top level page structure<br>
 `<head>` - contains metadata about the page and the page title<br>
