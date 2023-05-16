@@ -36,13 +36,13 @@
           </ol> -->
           <ol id="leaderboard"></ol>
         </div>
-        <div class="level">
+        <form id="myform" class="level" onsubmit="showModal()">
           <p>Level: 30 WPM</p>
           <p>Jack and Jill ran up a hill to fetch a pail of water</p>
           <p id="demo"></p>
           <input type="text" id="typeInput" placeholder="Type Here" value="" />
-          <button type="button" class="btn btn-primary" onclick="showModal()">Check Input</button>
-        </div>
+          <button type="submit" class="btn btn-primary">Check Input</button>
+        </form>
         <div class="notifications">
           <p>Notifications</p>
           <ul>
@@ -56,11 +56,14 @@
       <a class="btn btn-primary" href="https://github.com/Dakota3145/startup" role="button">Check out the Source Code Here</a>
     </footer>
     <script>
-      function showModal() {
+      function showModal(event = null) {
+        if (event != null) {
+          event.preventDefault();
+        }
         const inputVal = document.querySelector('#typeInput').value;
         console.log("input Value: ", inputVal);
         var modalEl;
-        if (inputVal == 'Jack and Jill ran up a hill to fetch a pail of water') {
+        if (inputVal != null && inputVal == 'Jack and Jill ran up a hill to fetch a pail of water') {
           modalEl = document.querySelector('#msgModalPassed');
         }
         else {
@@ -69,6 +72,9 @@
         const msgModal = new bootstrap.Modal(modalEl, {});
         msgModal.show();
       }
+
+      var myform = document.getElementById("myform");
+      myform.addEventListener("submit", showModal);
 
       function refreshPage() {
         location.reload();
