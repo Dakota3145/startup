@@ -39,7 +39,7 @@
           <p>Level: 30 WPM</p>
           <p>Jack and Jill ran up a hill to fetch a pail of water</p>
           <p id="demo"></p>
-          <input type="text" id="typeInput" placeholder="Type Here" />
+          <input type="text" id="typeInput" placeholder="Type Here" value="" />
           <button type="button" class="btn btn-primary" onclick="showModal()">Check Input</button>
         </div>
         <div class="notifications">
@@ -56,7 +56,15 @@
     </footer>
     <script>
       function showModal() {
-        const modalEl = document.querySelector('#msgModal');
+        const inputVal = document.querySelector('#typeInput').value;
+        console.log("input Value: ", inputVal);
+        var modalEl;
+        if (inputVal == 'Jack and Jill ran up a hill to fetch a pail of water') {
+          modalEl = document.querySelector('#msgModalPassed');
+        }
+        else {
+          modalEl = document.querySelector('#msgModalFailed');
+        }
         const msgModal = new bootstrap.Modal(modalEl, {});
         msgModal.show();
       }
@@ -94,11 +102,22 @@
       }, 1000);
     </script>
 
-    <!-- modal dialog -->
-    <div class="modal fade" id="msgModal" tabindex="-1">
+    <!-- modal passed dialog -->
+    <div class="modal fade" id="msgModalPassed" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content text-dark">
           <div class="modal-body">Passed! Your input matched the given text. Click close to start the next level</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="refreshPage()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="msgModalFailed" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-dark">
+          <div class="modal-body">Missed! Your input didn't match the given text. Click close to start over</div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="refreshPage()">Close</button>
           </div>
