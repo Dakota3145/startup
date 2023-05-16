@@ -38,6 +38,10 @@ body {
   background-color: Beige;
 }
 
+#typeInput {
+  width: 90%;
+}
+
 .wrapper {
   display: inline-grid;
   grid-template-columns: repeat(4, 1fr);
