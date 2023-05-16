@@ -5,7 +5,6 @@
 
 html {
   height: 100%;
-  background-color: Beige;
 }
 
 header {
@@ -17,7 +16,8 @@ header {
   margin: 10px;
 }
 
-h1, h2 {
+h1,
+h2 {
   margin-block-start: 5px;
   margin-block-end: 5px;
 }
@@ -31,11 +31,11 @@ main {
 }
 
 body {
-  background-color: beige;
   margin: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: Beige;
 }
 
 .wrapper {
