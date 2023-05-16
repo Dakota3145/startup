@@ -26,14 +26,15 @@
           <a class="btn btn-primary" href="/" role="button">Dave - Logout</a>
         </div>
         <div class="leaderboard">
-          <p>Database Data(Leaderboard)</p>
-          <ol>
+          <p>Leaderboard</p>
+          <!-- <ol>
             <li>Henry: 45 WPM</li>
             <li>Sam: 40 WPM</li>
             <li>Josh: 35 WPM</li>
             <li>Sarah: 30 WPM</li>
             <li>Jeremy: 20 WPM</li>
-          </ol>
+          </ol> -->
+          <ol id="leaderboard"></ol>
         </div>
         <div class="level">
           <p>Level: 30 WPM</p>
@@ -43,10 +44,10 @@
           <button type="button" class="btn btn-primary" onclick="showModal()">Check Input</button>
         </div>
         <div class="notifications">
-          <p>WebSocket Data(Notifications)</p>
+          <p>Notifications</p>
           <ul>
             <li>Sarah just got 30 WPM!</li>
-            <li id="notification">Jost just got 35 WPM!</li>
+            <li id="notification">Jeremy just got 20 WPM!</li>
           </ul>
         </div>
       </div>
@@ -92,6 +93,10 @@
           
         // Output the result in an element with id="demo"
         document.getElementById("demo").innerHTML = seconds + "s ";
+
+        if (seconds == 10) {
+          replaceLeaderboard();
+        }
           
         // If the count down is over, write some text 
         if (distance < 0) {
@@ -99,7 +104,25 @@
           document.getElementById("demo").innerHTML = "EXPIRED";
           showModal();
         }
+
       }, 1000);
+
+
+      let data = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
+      let list = document.getElementById("leaderboard");
+      for (i = 0; i < data.length; ++i) {
+        var li = document.createElement('li');
+        li.innerText = data[i];
+        list.appendChild(li);
+      }
+
+      function replaceLeaderboard() {
+        let list = document.getElementById("leaderboard");
+        var li = document.createElement('li');
+        li.innerText = "Jeremy: 20 WPM";
+        list.appendChild(li);
+      }
+
     </script>
 
     <!-- modal passed dialog -->
