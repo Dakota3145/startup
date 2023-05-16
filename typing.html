@@ -22,7 +22,9 @@
     </header>
     <main>
       <div class="wrapper">
-        <a class="logout" href="/">Dave - Logout</a>
+        <div class="logout">
+          <a class="btn btn-primary" href="/" role="button">Dave - Logout</a>
+        </div>
         <div class="leaderboard">
           <p>Database Data(Leaderboard)</p>
           <ol>
@@ -37,10 +39,7 @@
           <p>Level: 30 WPM</p>
           <p>Jack and Jill ran up a hill to fetch a pail of water</p>
           <input type="text" id="typeInput" placeholder="Type Here" />
-          <div>
-            <button>Check Input</button>
-          </div>
-          <button type="button" class="btn btn-primary" onclick="showModal()">Launch demo modal</button>
+          <button type="button" class="btn btn-primary" onclick="showModal()">Check Input</button>
         </div>
         <div class="notifications">
           <p>WebSocket Data(Notifications)</p>
@@ -52,7 +51,7 @@
       </div>
     </main>
     <footer>
-      <a href="https://github.com/Dakota3145/startup">Check out the Source Code Here</a>
+      <a class="btn btn-primary" href="https://github.com/Dakota3145/startup" role="button">Check out the Source Code Here</a>
     </footer>
     <script>
       function showModal() {
@@ -66,7 +65,7 @@
     <div class="modal fade" id="msgModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content text-dark">
-          <div class="modal-body">Hello Modal!</div>
+          <div class="modal-body">Passed! Your input matched the given text. Click close to start the next level</div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>

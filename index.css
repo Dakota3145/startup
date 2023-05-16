@@ -48,6 +48,7 @@ body {
   background-color: Beige;
 }
 
+
 #typeInput {
   width: 90%;
 }
@@ -58,6 +59,10 @@ body {
   grid-template-rows: auto 1fr;
   gap: 10px;
   grid-auto-rows: minmax(100px, auto);
+}
+
+.btn {
+  margin: 10px;
 }
 
 .logout {
