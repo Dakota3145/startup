@@ -38,6 +38,7 @@
         <div class="level">
           <p>Level: 30 WPM</p>
           <p>Jack and Jill ran up a hill to fetch a pail of water</p>
+          <p id="demo"></p>
           <input type="text" id="typeInput" placeholder="Type Here" />
           <button type="button" class="btn btn-primary" onclick="showModal()">Check Input</button>
         </div>
@@ -45,7 +46,7 @@
           <p>WebSocket Data(Notifications)</p>
           <ul>
             <li>Sarah just got 30 WPM!</li>
-            <li>Jost just got 35 WPM!</li>
+            <li id="notification">Jost just got 35 WPM!</li>
           </ul>
         </div>
       </div>
@@ -59,6 +60,38 @@
         const msgModal = new bootstrap.Modal(modalEl, {});
         msgModal.show();
       }
+
+      function refreshPage() {
+        location.reload();
+      }
+
+            // Set the date we're counting down to
+      var curr = new Date().getTime();
+      numSeconds = 22;
+      var countDownDate = new Date(curr + numSeconds*1000);
+
+      // Update the count down every 1 second
+      var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+          
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+          
+        // Time calculations for days, hours, minutes and seconds
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          
+        // Output the result in an element with id="demo"
+        document.getElementById("demo").innerHTML = seconds + "s ";
+          
+        // If the count down is over, write some text 
+        if (distance < 0) {
+          clearInterval(x);
+          document.getElementById("demo").innerHTML = "EXPIRED";
+          showModal();
+        }
+      }, 1000);
     </script>
 
     <!-- modal dialog -->
@@ -67,7 +100,7 @@
         <div class="modal-content text-dark">
           <div class="modal-body">Passed! Your input matched the given text. Click close to start the next level</div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="refreshPage()">Close</button>
           </div>
         </div>
       </div>

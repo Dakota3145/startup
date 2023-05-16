@@ -86,6 +86,25 @@ body {
   grid-row: 2;
 }
 
+#notification {
+  animation-duration: 10s;
+  animation-name: slidein;
+}
+
+@keyframes slidein {
+  0% {
+    transform: translateX(200%);
+  }
+
+  90% {
+    transform: translateX(200%);
+  }
+  
+  100% {
+    transform: translateX(0%);
+  }
+}
+
 footer {
   flex: 0 50px;
   background: burlywood;
