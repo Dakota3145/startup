@@ -54,6 +54,23 @@ The biggest thing that I learned is that if you want to have multiple items on t
 `"` - `&quot;`<br>
 `'` - `&apos;`<br>
 
+## JavaScript
+
+### Functions
+
+push - add an item to the end of the array(a.push(4))<br>
+pop - remove an item from the end of the array(x = a.pop())<br>
+slice - return a sub-array(a.slice(1, -1))<br>
+sort - run a function sort an array in place(a.sort((a,b) => b-a)<br>
+values - creates an iterator for use with a `for of` loop(for (i of a.values()) {...}<br>
+find - find the first item satisfied by a test function(a.find(i => i < 2)<br>
+forEach - run a function on each array item(a.forEach(console.log))<br>
+reduce - run a function to reduce each array item to a single item(a.reduce((a, c)) => a + c)<br>
+map - run a function to map an array to a new array(a.map(i => i + i))<br>
+filter - run a function to remove items(a.filter(i => i%2)<br>
+every - run a function to test if all items match (a.every(i => i < 3))<br>
+some - run a function to test if any items match (a.some(i => 1 < 1))<br>
+
 ### Extra
 
 The readme is at https://github.com/Dakota3145/startup/blob/main/README.md
