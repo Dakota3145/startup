@@ -35,7 +35,7 @@
           </ol> -->
           <ol id="leaderboard"></ol>
         </div>
-        <form id="myform" class="level" onsubmit="showModal()">
+        <form id="myform" class="level">
           <p>Level: 30 WPM</p>
           <p>Jack and Jill ran up a hill to fetch a pail of water</p>
           <p id="demo"></p>
@@ -72,65 +72,85 @@
         msgModal.show();
       }
 
-      var myform = document.getElementById("myform");
-      myform.addEventListener("submit", showModal);
+      let shouldShowModal = false;
+
+      function finishTimer(event = null) {
+        if (event != null) {
+          event.preventDefault();
+        }
+        shouldShowModal = true;
+      }
+
+      let myform = document.getElementById("myform");
+      myform.addEventListener("submit", finishTimer);
 
       // function refreshPage() {
       //   location.reload();
       // }
 
-      function changeLevel() {
-        //TODO: change html inner text of the typing level
+      function setTimer() {
+        // Set the date we're counting down to
+        let curr = new Date().getTime();
+        numSeconds = 22;
+        let countDownDate = new Date(curr + numSeconds*1000);
+
+        // Update the count down every 1 second
+        let x = setInterval(function() {
+
+          // Get today's date and time
+          let now = new Date().getTime();
+            
+          // Find the distance between now and the count down date
+          let distance = countDownDate - now;
+            
+          // Time calculations for days, hours, minutes and seconds
+          let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+          // Output the result in an element with id="demo"
+          document.getElementById("demo").innerHTML = seconds + "s ";
+
+          if (seconds == 10) {
+            replaceLeaderboard();
+          }
+            
+          // If the count down is over, write some text 
+          if (distance < 0) {
+            shouldShowModal = true;
+          }
+
+          if (shouldShowModal == true) {
+            shouldShowModal = false;
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "EXPIRED";
+            showModal();
+          }
+
+        }, 1000);
       }
 
-            // Set the date we're counting down to
-      var curr = new Date().getTime();
-      numSeconds = 22;
-      var countDownDate = new Date(curr + numSeconds*1000);
-
-      // Update the count down every 1 second
-      var x = setInterval(function() {
-
-        // Get today's date and time
-        var now = new Date().getTime();
-          
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
-          
-        // Time calculations for days, hours, minutes and seconds
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          
-        // Output the result in an element with id="demo"
-        document.getElementById("demo").innerHTML = seconds + "s ";
-
-        if (seconds == 10) {
-          replaceLeaderboard();
-        }
-          
-        // If the count down is over, write some text 
-        if (distance < 0) {
-          clearInterval(x);
-          document.getElementById("demo").innerHTML = "EXPIRED";
-          showModal();
-        }
-
-      }, 1000);
+      function changeLevel() {
+        //TODO: change html inner text of the typing level
+        document.getElementById("typeInput").value = "";
+        setTimer();
+      }
 
 
       let data = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
       let list = document.getElementById("leaderboard");
       for (i = 0; i < data.length; ++i) {
-        var li = document.createElement('li');
+        let li = document.createElement('li');
         li.innerText = data[i];
         list.appendChild(li);
       }
 
       function replaceLeaderboard() {
         let list = document.getElementById("leaderboard");
-        var li = document.createElement('li');
+        let li = document.createElement('li');
         li.innerText = "Jeremy: 20 WPM";
         list.appendChild(li);
       }
+
+      setTimer();
 
     </script>
 
