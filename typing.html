@@ -26,20 +26,13 @@
         </div>
         <div class="leaderboard">
           <p>Leaderboard</p>
-          <!-- <ol>
-            <li>Henry: 45 WPM</li>
-            <li>Sam: 40 WPM</li>
-            <li>Josh: 35 WPM</li>
-            <li>Sarah: 30 WPM</li>
-            <li>Jeremy: 20 WPM</li>
-          </ol> -->
           <ol id="leaderboard"></ol>
         </div>
-        <form id="myform" class="level">
+        <form id="myform" class="level" onSubmit="return finishTimer()">
           <p>Level: 30 WPM</p>
           <p>Jack and Jill ran up a hill to fetch a pail of water</p>
           <p id="demo"></p>
-          <input type="text" id="typeInput" placeholder="Type Here" value="" />
+          <input type="text" id="typeInput" placeholder="Type Here" value=""/>
           <button type="submit" class="btn btn-primary">Check Input</button>
         </form>
         <div class="notifications">
@@ -55,18 +48,25 @@
       <a class="btn btn-primary" href="https://github.com/Dakota3145/startup" role="button">Check out the Source Code Here</a>
     </footer>
     <script>
+
+      let leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
+      let mockNewDatabaseData = false;
+      let didPassLevel = false;
+
       function showModal(event = null) {
         if (event != null) {
           event.preventDefault();
         }
         const inputVal = document.querySelector('#typeInput').value;
-        console.log("input Value: ", inputVal);
-        var modalEl;
+        let modalEl = document.querySelector('#myModal');
+        let modalText = document.querySelector('#modalText');
         if (inputVal != null && inputVal == 'Jack and Jill ran up a hill to fetch a pail of water') {
-          modalEl = document.querySelector('#msgModalPassed');
+          didPassLevel = true;
+          modalText.innerText = "Passed! Your input matched the given text. Click close to start the next level";
         }
         else {
-          modalEl = document.querySelector('#msgModalFailed');
+          didPassLevel = false;
+          modalText.innerText = "Missed! Your input didn't match the given text. Click close to start over";
         }
         const msgModal = new bootstrap.Modal(modalEl, {});
         msgModal.show();
@@ -79,14 +79,40 @@
           event.preventDefault();
         }
         shouldShowModal = true;
+        return false;
       }
 
-      let myform = document.getElementById("myform");
-      myform.addEventListener("submit", finishTimer);
+      function removeAllChildNodes(parent) {
+        while (parent.firstChild) {
+          parent.removeChild(parent.firstChild);
+        }
+      }
 
-      // function refreshPage() {
-      //   location.reload();
-      // }
+      function removeLeaderboard() {
+        let leaderboardList = document.getElementById("leaderboard");
+        removeAllChildNodes(leaderboardList)
+      }
+      
+      function populateLeaderboard() {
+        let list = document.getElementById("leaderboard");
+        for (i = 0; i < leaderboardData.length; ++i) {
+          let li = document.createElement('li');
+          li.innerText = leaderboardData[i];
+          list.appendChild(li);
+        }
+      }
+
+      populateLeaderboard();
+
+      function grabLeaderboardFromDatabase() {
+        //This is where I will grab data from database, this is just pretending to grab that data
+        if (mockNewDatabaseData) {
+          leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM", "Jeremy: 20 WPM"];
+        }
+        else {
+          leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
+        }
+      }
 
       function setTimer() {
         // Set the date we're counting down to
@@ -107,7 +133,7 @@
           let seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
           // Output the result in an element with id="demo"
-          document.getElementById("demo").innerHTML = seconds + "s ";
+          document.getElementById("demo").innerHTML = seconds + "s";
 
           if (seconds == 10) {
             replaceLeaderboard();
@@ -134,15 +160,6 @@
         setTimer();
       }
 
-
-      let data = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
-      let list = document.getElementById("leaderboard");
-      for (i = 0; i < data.length; ++i) {
-        let li = document.createElement('li');
-        li.innerText = data[i];
-        list.appendChild(li);
-      }
-
       function replaceLeaderboard() {
         let list = document.getElementById("leaderboard");
         let li = document.createElement('li');
@@ -155,21 +172,10 @@
     </script>
 
     <!-- modal passed dialog -->
-    <div class="modal fade" id="msgModalPassed" tabindex="-1">
+    <div class="modal fade" id="myModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content text-dark">
-          <div class="modal-body">Passed! Your input matched the given text. Click close to start the next level</div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="changeLevel()">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="msgModalFailed" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content text-dark">
-          <div class="modal-body">Missed! Your input didn't match the given text. Click close to start over</div>
+          <div class="modal-body" id="modalText">Passed! Your input matched the given text. Click close to start the next level</div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="changeLevel()">Close</button>
           </div>
