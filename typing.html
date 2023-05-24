@@ -52,6 +52,9 @@
       let leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
       let mockNewDatabaseData = false;
       let didPassLevel = false;
+      let loadPageTime = new Date().getTime();
+      let updateSeconds = 10;
+      let mockNewDataDate = new Date(loadPageTime + updateSeconds*1000);
 
       function showModal(event = null) {
         if (event != null) {
@@ -102,17 +105,21 @@
         }
       }
 
-      populateLeaderboard();
-
-      function grabLeaderboardFromDatabase() {
+      function getLeaderboardFromDatabase() {
         //This is where I will grab data from database, this is just pretending to grab that data
         if (mockNewDatabaseData) {
           leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM", "Jeremy: 20 WPM"];
+          removeLeaderboard();
+          populateLeaderboard();
         }
         else {
           leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
+          removeLeaderboard();
+          populateLeaderboard();
         }
       }
+
+      getLeaderboardFromDatabase();
 
       function setTimer() {
         // Set the date we're counting down to
@@ -122,28 +129,20 @@
 
         // Update the count down every 1 second
         let x = setInterval(function() {
-
-          // Get today's date and time
           let now = new Date().getTime();
-            
-          // Find the distance between now and the count down date
           let distance = countDownDate - now;
-            
-          // Time calculations for days, hours, minutes and seconds
           let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-          // Output the result in an element with id="demo"
           document.getElementById("demo").innerHTML = seconds + "s";
-
-          if (seconds == 10) {
-            replaceLeaderboard();
+          if (mockNewDataDate < now) {
+            mockNewDatabaseData = true;
           }
-            
-          // If the count down is over, write some text 
+          //update database every 5 seconds
+          if (Math.floor((now % (1000 * 60)) / 1000) % 5 == 0) {
+            getLeaderboardFromDatabase();
+          }
           if (distance < 0) {
             shouldShowModal = true;
           }
-
           if (shouldShowModal == true) {
             shouldShowModal = false;
             clearInterval(x);
