@@ -49,7 +49,7 @@
     </footer>
     <script>
 
-      let leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
+      let leaderboardData = [];
       let mockNewDatabaseData = false;
       let didPassLevel = false;
       let loadPageTime = new Date().getTime();
@@ -107,13 +107,17 @@
 
       function getLeaderboardFromDatabase() {
         //This is where I will grab data from database, this is just pretending to grab that data
+        databaseData = [];
         if (mockNewDatabaseData) {
-          leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM", "Jeremy: 20 WPM"];
-          removeLeaderboard();
-          populateLeaderboard();
+          databaseData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM", "Jeremy: 20 WPM"];
         }
         else {
-          leaderboardData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
+          databaseData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
+        }
+        //only remove and update leaderboard html if it's changed
+        if (JSON.stringify(databaseData) !== JSON.stringify(leaderboardData)) {
+          console.log("not equal");
+          leaderboardData = databaseData;
           removeLeaderboard();
           populateLeaderboard();
         }
