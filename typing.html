@@ -75,8 +75,12 @@
       var myform = document.getElementById("myform");
       myform.addEventListener("submit", showModal);
 
-      function refreshPage() {
-        location.reload();
+      // function refreshPage() {
+      //   location.reload();
+      // }
+
+      function changeLevel() {
+        //TODO: change html inner text of the typing level
       }
 
             // Set the date we're counting down to
@@ -136,7 +140,7 @@
         <div class="modal-content text-dark">
           <div class="modal-body">Passed! Your input matched the given text. Click close to start the next level</div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="refreshPage()">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="changeLevel()">Close</button>
           </div>
         </div>
       </div>
@@ -147,7 +151,7 @@
         <div class="modal-content text-dark">
           <div class="modal-body">Missed! Your input didn't match the given text. Click close to start over</div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="refreshPage()">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="changeLevel()">Close</button>
           </div>
         </div>
       </div>
