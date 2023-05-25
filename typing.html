@@ -29,8 +29,8 @@
           <ol id="leaderboard"></ol>
         </div>
         <form id="myform" class="level" onSubmit="return finishTimer()">
-          <p>Level: 30 WPM</p>
-          <p>Jack and Jill ran up a hill to fetch a pail of water</p>
+          <p id="levelNum">Level: 9 WPM</p>
+          <p id="levelText">He is nice</p>
           <p id="demo"></p>
           <input type="text" id="typeInput" placeholder="Type Here" value=""/>
           <button type="submit" class="btn btn-primary">Check Input</button>
@@ -38,8 +38,8 @@
         <div class="notifications">
           <p>Notifications</p>
           <ul>
-            <li>Sarah just got 30 WPM!</li>
-            <li id="notification">Jeremy just got 20 WPM!</li>
+            <li>Sarah just got 9 WPM!</li>
+            <li id="notification">Jeremy just got 9 WPM!</li>
           </ul>
         </div>
       </div>
@@ -51,10 +51,24 @@
 
       let leaderboardData = [];
       let mockNewDatabaseData = false;
-      let didPassLevel = false;
       let loadPageTime = new Date().getTime();
       let updateSeconds = 10;
       let mockNewDataDate = new Date(loadPageTime + updateSeconds*1000);
+      let didPass = false;
+      let levels = {
+        9: "He is nice",
+        12: "You can sit here",
+        15: "She went up the hill",
+        21: "You can do it in a week",
+        24: "I want to go see a fun movie",
+        27: "Do you want to go to a ball game",
+        30: "It is a lot of fun to drive a car",
+        33: "Do you want to go and get a bite to eat",
+        36: "Can you get that to me by the end of the day",
+        39: "I can pick you up from your work if you want me to"
+      }
+
+      let currLevel = 9;
 
       function showModal(event = null) {
         if (event != null) {
@@ -63,12 +77,12 @@
         const inputVal = document.querySelector('#typeInput').value;
         let modalEl = document.querySelector('#myModal');
         let modalText = document.querySelector('#modalText');
-        if (inputVal != null && inputVal == 'Jack and Jill ran up a hill to fetch a pail of water') {
-          didPassLevel = true;
+        if (inputVal != null && inputVal == levels[currLevel]) {
+          didPass = true;
           modalText.innerText = "Passed! Your input matched the given text. Click close to start the next level";
         }
         else {
-          didPassLevel = false;
+          didPass = false;
           modalText.innerText = "Missed! Your input didn't match the given text. Click close to start over";
         }
         const msgModal = new bootstrap.Modal(modalEl, {});
@@ -109,14 +123,13 @@
         //This is where I will grab data from database, this is just pretending to grab that data
         databaseData = [];
         if (mockNewDatabaseData) {
-          databaseData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM", "Jeremy: 20 WPM"];
+          databaseData = ["Henry: 12 WPM", "Sam: 12 WPM", "Josh: 12 WPM", "Sarah: 9 WPM", "Jeremy: 9 WPM"];
         }
         else {
-          databaseData = ["Henry: 45 WPM", "Sam: 40 WPM", "Josh: 35 WPM", "Sarah: 30 WPM"];
+          databaseData = ["Henry: 12 WPM", "Sam: 12 WPM", "Josh: 12 WPM", "Sarah: 9 WPM"];
         }
         //only remove and update leaderboard html if it's changed
         if (JSON.stringify(databaseData) !== JSON.stringify(leaderboardData)) {
-          console.log("not equal");
           leaderboardData = databaseData;
           removeLeaderboard();
           populateLeaderboard();
@@ -160,13 +173,25 @@
       function changeLevel() {
         //TODO: change html inner text of the typing level
         document.getElementById("typeInput").value = "";
+        if (didPass) {
+          if (currLevel < 39) {
+            currLevel += 3;
+          }
+        }
+        else {
+          currLevel = 9;
+        }
+        let levelNum = document.querySelector('#levelNum');
+        levelNum.innerText = `Level: ${currLevel} WPM`;
+        let levelText = document.querySelector('#levelText');
+        levelText.innerText = levels[currLevel];
         setTimer();
       }
 
       function replaceLeaderboard() {
         let list = document.getElementById("leaderboard");
         let li = document.createElement('li');
-        li.innerText = "Jeremy: 20 WPM";
+        li.innerText = "Jeremy: 9 WPM";
         list.appendChild(li);
       }
 
