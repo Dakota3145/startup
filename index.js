@@ -2,13 +2,17 @@
  * Javascript for index.html
  */
 
+let currUsername = sessionStorage.getItem("currUsername");
+let currFName = sessionStorage.getItem("currFName");
+let logoutFName = sessionStorage.getItem("logoutFName");
+
 let usernames = [];
 let firstNames = [];
 let passwords = [];
 
 function getUsersData() {
     usernames = ["Henry95", "Josh96", "Jeremy97", "Sam98", "Sarah99", "test"];
-    firstNames = ["Henry", "Josh", "Jeremy", "Sam", "Sarah", "David"];
+    firstNames = ["Henry", "Josh", "Jeremy", "Sam", "Sarah", "TestUser"];
     passwords = ["hotdog", "pineapple", "banana", "strawberry", "blueberry", "test"];
 }
 
@@ -27,6 +31,12 @@ function login(event = null) {
     if (usernameIndex > -1) {
         let passwordInput = document.querySelector("#loginPassword").value;
         if (passwordInput == passwords[usernameIndex]) {
+            sessionStorage.setItem("currUsername", usernameInput);
+            sessionStorage.setItem("currFName", firstNames[usernameIndex]);
+            sessionStorage.setItem("logoutFName", firstNames[usernameIndex] + " - Logout");
+            // let logoutEl = document.querySelector("#logoutBtn");
+            // logoutEl.innerText = currFName + " - Logout";
+            // logoutFName = sessionStorage.currFName + " - Logout";
             window.open("typing.html", "_self");
         }
         else {
@@ -68,6 +78,11 @@ function login(event = null) {
     }
     if (errorStr == "") {
         if (usernameIndex == -1) {
+            sessionStorage.setItem("currUsername", usernameInput);
+            sessionStorage.setItem("currFName", fnameInput);
+            // let logoutEl = document.querySelector("#logoutBtn");
+            // logoutEl.innerText = currFName + " - Logout";
+            sessionStorage.setItem("logoutFName", fnameInput + " - Logout");
             window.open("typing.html", "_self");
         }
         //if username is already saved, show error modal
@@ -87,8 +102,8 @@ function login(event = null) {
  * Javascript for typing.html
  */
 
-let leaderboardNames = [];
-let leaderboardLevels = [];
+let leaderboardNames = ["Henry", "Sam", "Josh", "Sarah"];
+let leaderboardLevels = [12, 12, 12, 9];
 let mockNewDatabaseData = false;
 let loadPageTime = new Date().getTime();
 let updateSeconds = 10;
@@ -106,7 +121,9 @@ let levels = {
     36: "Can you get that to me by the end of the day",
     39: "I can pick you up from your work if you want me to"
 }
-
+let logoutBtnEl = document.querySelector("#logoutBtn");
+console.log(sessionStorage.getItem("logoutFName"));
+logoutBtnEl.innerText = sessionStorage.getItem("logoutFName");
 let currLevel = 9;
 
 function showModal(event = null) {
@@ -116,9 +133,15 @@ function showModal(event = null) {
     const inputVal = document.querySelector('#typeInput').value;
     let modalEl = document.querySelector('#typingModal');
     let modalText = document.querySelector('#typingModalText');
+    let maxLevel = 39;
     if (inputVal != null && inputVal == levels[currLevel]) {
         didPass = true;
-        modalText.innerText = "Passed! Your input matched the given text. Click close to start the next level";
+        if (currLevel == maxLevel) {
+            modalText.innerText = "Passed! You passed all of the levels! Start from the beginning to see if you can pass the levels again!";
+        }
+        else {
+            modalText.innerText = "Passed! Your input matched the given text. Click close to start the next level";
+        }
     }
     else {
         didPass = false;
@@ -159,6 +182,7 @@ function populateLeaderboard() {
         list.appendChild(li);
     }
 }
+populateLeaderboard();
 
 function getLeaderboardFromDatabase() {
     //This is where I will grab data from database, this is just pretending to grab that data
@@ -201,7 +225,7 @@ function setTimer() {
         }
         //update database every 5 seconds
         if (Math.floor((now % (1000 * 60)) / 1000) % 5 == 0) {
-            getLeaderboardFromDatabase();
+            //getLeaderboardFromDatabase();
         }
         if (distance < 0) {
             shouldShowModal = true;
@@ -216,15 +240,56 @@ function setTimer() {
     }, 1000);
 }
 
+function checkForHighScore() {
+    console.log("current user's FName: ", sessionStorage.getItem("currFName"));
+    let maxLeaderboardLength = 5;
+    let replaceIndex = -1;
+    for (let i = leaderboardLevels.length - 1; i >= 0; i--) {
+        if (currLevel > leaderboardLevels[i]) {
+            replaceIndex = i;
+        }
+        else if (currLevel == leaderboardLevels[i]) {
+            if (i < (maxLeaderboardLength - 1)) {
+                replaceIndex = i + 1;
+                break;
+            }
+            else {
+                break;
+            }
+        }
+        else {
+            break;
+        }
+    }
+    console.log("replace index: ", replaceIndex);
+    if (replaceIndex > -1) {
+        leaderboardLevels.splice(replaceIndex, 0, currLevel);
+        leaderboardNames.splice(replaceIndex, 0, sessionStorage.getItem("currFName"));
+        console.log("leaderboard Names: ", leaderboardNames);
+        console.log("leaderboard levels: ", leaderboardLevels);
+        if (leaderboardLevels.length > maxLeaderboardLength) {
+            leaderboardLevels = leaderboardLevels.slice(0, maxLeaderboardLength);
+            leaderboardNames = leaderboardNames.slice(0, maxLeaderboardLength);
+        }
+        removeLeaderboard();
+        populateLeaderboard();
+    }
+}
+
 function changeLevel() {
     //TODO: change html inner text of the typing level
     document.getElementById("typeInput").value = "";
     if (didPass) {
         if (currLevel < 39) {
-        currLevel += 3;
+            currLevel += 3;
+        }
+        else {
+            checkForHighScore();
+            currLevel = 9;
         }
     }
     else {
+        checkForHighScore();
         currLevel = 9;
     }
     let levelNum = document.querySelector('#levelNum');
