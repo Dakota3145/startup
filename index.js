@@ -18,14 +18,14 @@ function login(event = null) {
     if (event != null) {
         event.preventDefault();
     }
-    let usernameInput = document.querySelector("#myUsername").value;
+    let usernameInput = document.querySelector("#loginUsername").value;
     let usernameIndex = usernames.indexOf(usernameInput);
     let modalEl = document.querySelector('#loginModal');
     let modalText = document.querySelector('#loginModalText');
     const msgModal = new bootstrap.Modal(modalEl, {});
     //if the username is found, compare it with the password and then open typing.html
     if (usernameIndex > -1) {
-        let passwordInput = document.querySelector("#myPassword").value;
+        let passwordInput = document.querySelector("#loginPassword").value;
         if (passwordInput == passwords[usernameIndex]) {
             window.open("typing.html", "_self");
         }
@@ -38,6 +38,49 @@ function login(event = null) {
         modalText.innerText = "Username not found";
         msgModal.show();
     }
+}
+
+/**
+ * Javascript for signup.html
+ */
+
+ function signup(event = null) {
+    if (event != null) {
+        event.preventDefault();
+    }
+    let fnameInput = document.querySelector("#signupFName").value;
+    let usernameInput = document.querySelector("#signupUsername").value;
+    let usernameIndex = usernames.indexOf(usernameInput);
+    let modalEl = document.querySelector('#signupModal');
+    let modalText = document.querySelector('#signupModalText');
+    const msgModal = new bootstrap.Modal(modalEl, {});
+    let passwordInput = document.querySelector("#signupPassword").value;
+    let errorStr = "";
+    //only allow new usernames
+    if (fnameInput == "") {
+        errorStr += "You need to enter a first name\n";
+    }
+    if (usernameInput == "") {
+        errorStr += "You need to enter a username\n";
+    }
+    if (passwordInput == "") {
+        errorStr += "You need to enter a password";
+    }
+    if (errorStr == "") {
+        if (usernameIndex == -1) {
+            window.open("typing.html", "_self");
+        }
+        //if username is already saved, show error modal
+        else {
+            modalText.innerText = "Username is already in use. Try another username";
+            msgModal.show();
+        }
+    }
+    else {
+        modalText.innerText = errorStr;
+        msgModal.show();
+    }
+
 }
 
 /**
@@ -119,7 +162,6 @@ function populateLeaderboard() {
 
 function getLeaderboardFromDatabase() {
     //This is where I will grab data from database, this is just pretending to grab that data
-    console.log("Got to getLeaderboardFromDatabase");
     databaseNames = [];
     databaseLevels = [];
     if (mockNewDatabaseData) {

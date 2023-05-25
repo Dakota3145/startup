@@ -20,12 +20,12 @@
     </header>
     <main>
       <div style="display: flex; justify-content: center">
-        <label for="myUsername">Username:</label>
-        <input type="text" id="myUsername" name="myUsername" placeholder="Enter Username" /><br /><br />
+        <label for="loginUsername">Username:</label>
+        <input type="text" id="loginUsername" name="loginUsername" placeholder="Enter Username" /><br /><br />
       </div>
       <div style="display: flex; justify-content: center">
-        <label for="myPassword">Password:</label>
-        <input type="password" id="myPassword" name="myPassword" placeholder="Enter Password" /><br /><br />
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter Password" /><br /><br />
       </div>
       <div style="display: flex; justify-content: center">
         <button class="btn btn-primary" onclick="login()" role="button">Login</button>
@@ -40,7 +40,7 @@
   <div class="modal fade" id="loginModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content text-dark">
-        <div class="modal-body" id="loginModalText">Passed! Your input matched the given text. Click close to start the next level</div>
+        <div class="modal-body" id="loginModalText">Username not Found</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
