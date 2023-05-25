@@ -49,7 +49,8 @@
     </footer>
     <script>
 
-      let leaderboardData = [];
+      let leaderboardNames = [];
+      let leaderboardLevels = [];
       let mockNewDatabaseData = false;
       let loadPageTime = new Date().getTime();
       let updateSeconds = 10;
@@ -111,26 +112,37 @@
       }
       
       function populateLeaderboard() {
+        console.log("got to populateLeaderboard");
+        console.log("leaderboard names: ", leaderboardNames);
+        console.log("leaderBoard levels: ", leaderboardLevels);
         let list = document.getElementById("leaderboard");
-        for (i = 0; i < leaderboardData.length; ++i) {
+        let leaderboardText = "";
+        for (i = 0; i < leaderboardNames.length; ++i) {
           let li = document.createElement('li');
-          li.innerText = leaderboardData[i];
+          leaderboardText = `${leaderboardNames[i]}: ${leaderboardLevels[i]} WPM`;
+          li.innerText = leaderboardText;
           list.appendChild(li);
         }
       }
 
       function getLeaderboardFromDatabase() {
         //This is where I will grab data from database, this is just pretending to grab that data
-        databaseData = [];
+        console.log("Got to getLeaderboardFromDatabase");
+        databaseNames = [];
+        databaseLevels = [];
         if (mockNewDatabaseData) {
-          databaseData = ["Henry: 12 WPM", "Sam: 12 WPM", "Josh: 12 WPM", "Sarah: 9 WPM", "Jeremy: 9 WPM"];
+          databaseNames = ["Henry", "Sam", "Josh", "Sarah", "Jeremy"];
+          databaseLevels = [12, 12, 12, 9, 9];
         }
         else {
-          databaseData = ["Henry: 12 WPM", "Sam: 12 WPM", "Josh: 12 WPM", "Sarah: 9 WPM"];
+          databaseNames = ["Henry", "Sam", "Josh", "Sarah"];
+          databaseLevels = [12, 12, 12, 9];
         }
         //only remove and update leaderboard html if it's changed
-        if (JSON.stringify(databaseData) !== JSON.stringify(leaderboardData)) {
-          leaderboardData = databaseData;
+        if (JSON.stringify(databaseNames) !== JSON.stringify(leaderboardNames) || 
+            JSON.stringify(databaseLevels) !== JSON.stringify(leaderboardLevels)) {
+          leaderboardNames = databaseNames;
+          leaderboardLevels = databaseLevels;
           removeLeaderboard();
           populateLeaderboard();
         }
