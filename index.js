@@ -1,3 +1,49 @@
+/**
+ * Javascript for index.html
+ */
+
+let usernames = [];
+let firstNames = [];
+let passwords = [];
+
+function getUsersData() {
+    usernames = ["Henry95", "Josh96", "Jeremy97", "Sam98", "Sarah99", "test"];
+    firstNames = ["Henry", "Josh", "Jeremy", "Sam", "Sarah", "David"];
+    passwords = ["hotdog", "pineapple", "banana", "strawberry", "blueberry", "test"];
+}
+
+getUsersData();
+
+function login(event = null) {
+    if (event != null) {
+        event.preventDefault();
+    }
+    let usernameInput = document.querySelector("#myUsername").value;
+    let usernameIndex = usernames.indexOf(usernameInput);
+    let modalEl = document.querySelector('#loginModal');
+    let modalText = document.querySelector('#loginModalText');
+    const msgModal = new bootstrap.Modal(modalEl, {});
+    //if the username is found, compare it with the password and then open typing.html
+    if (usernameIndex > -1) {
+        let passwordInput = document.querySelector("#myPassword").value;
+        if (passwordInput == passwords[usernameIndex]) {
+            window.open("typing.html", "_self");
+        }
+        else {
+            modalText.innerText = "The Password inputted doesn't match the password saved for that username";
+            msgModal.show();
+        }
+    }
+    else {
+        modalText.innerText = "Username not found";
+        msgModal.show();
+    }
+}
+
+/**
+ * Javascript for typing.html
+ */
+
 let leaderboardNames = [];
 let leaderboardLevels = [];
 let mockNewDatabaseData = false;
@@ -6,92 +52,92 @@ let updateSeconds = 10;
 let mockNewDataDate = new Date(loadPageTime + updateSeconds*1000);
 let didPass = false;
 let levels = {
-9: "He is nice",
-12: "You can sit here",
-15: "She went up the hill",
-21: "You can do it in a week",
-24: "I want to go see a fun movie",
-27: "Do you want to go to a ball game",
-30: "It is a lot of fun to drive a car",
-33: "Do you want to go and get a bite to eat",
-36: "Can you get that to me by the end of the day",
-39: "I can pick you up from your work if you want me to"
+    9: "He is nice",
+    12: "You can sit here",
+    15: "She went up the hill",
+    21: "You can do it in a week",
+    24: "I want to go see a fun movie",
+    27: "Do you want to go to a ball game",
+    30: "It is a lot of fun to drive a car",
+    33: "Do you want to go and get a bite to eat",
+    36: "Can you get that to me by the end of the day",
+    39: "I can pick you up from your work if you want me to"
 }
 
 let currLevel = 9;
 
 function showModal(event = null) {
-if (event != null) {
-    event.preventDefault();
-}
-const inputVal = document.querySelector('#typeInput').value;
-let modalEl = document.querySelector('#myModal');
-let modalText = document.querySelector('#modalText');
-if (inputVal != null && inputVal == levels[currLevel]) {
-    didPass = true;
-    modalText.innerText = "Passed! Your input matched the given text. Click close to start the next level";
-}
-else {
-    didPass = false;
-    modalText.innerText = "Missed! Your input didn't match the given text. Click close to start over";
-}
-const msgModal = new bootstrap.Modal(modalEl, {});
-msgModal.show();
-}
+    if (event != null) {
+        event.preventDefault();
+    }
+    const inputVal = document.querySelector('#typeInput').value;
+    let modalEl = document.querySelector('#typingModal');
+    let modalText = document.querySelector('#typingModalText');
+    if (inputVal != null && inputVal == levels[currLevel]) {
+        didPass = true;
+        modalText.innerText = "Passed! Your input matched the given text. Click close to start the next level";
+    }
+    else {
+        didPass = false;
+        modalText.innerText = "Missed! Your input didn't match the given text. Click close to start over";
+    }
+    const msgModal = new bootstrap.Modal(modalEl, {});
+    msgModal.show();
+    }
 
-let shouldShowModal = false;
+    let shouldShowModal = false;
 
-function finishTimer(event = null) {
-if (event != null) {
-    event.preventDefault();
-}
-shouldShowModal = true;
-return false;
+    function finishTimer(event = null) {
+    if (event != null) {
+        event.preventDefault();
+    }
+    shouldShowModal = true;
+    return false;
 }
 
 function removeAllChildNodes(parent) {
-while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-}
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 }
 
 function removeLeaderboard() {
-let leaderboardList = document.getElementById("leaderboard");
-removeAllChildNodes(leaderboardList)
+    let leaderboardList = document.getElementById("leaderboard");
+    removeAllChildNodes(leaderboardList)
 }
 
 function populateLeaderboard() {
-let list = document.getElementById("leaderboard");
-let leaderboardText = "";
-for (i = 0; i < leaderboardNames.length; ++i) {
-    let li = document.createElement('li');
-    leaderboardText = `${leaderboardNames[i]}: ${leaderboardLevels[i]} WPM`;
-    li.innerText = leaderboardText;
-    list.appendChild(li);
-}
+    let list = document.getElementById("leaderboard");
+    let leaderboardText = "";
+    for (i = 0; i < leaderboardNames.length; ++i) {
+        let li = document.createElement('li');
+        leaderboardText = `${leaderboardNames[i]}: ${leaderboardLevels[i]} WPM`;
+        li.innerText = leaderboardText;
+        list.appendChild(li);
+    }
 }
 
 function getLeaderboardFromDatabase() {
-//This is where I will grab data from database, this is just pretending to grab that data
-console.log("Got to getLeaderboardFromDatabase");
-databaseNames = [];
-databaseLevels = [];
-if (mockNewDatabaseData) {
-    databaseNames = ["Henry", "Sam", "Josh", "Sarah", "Jeremy"];
-    databaseLevels = [12, 12, 12, 9, 9];
-}
-else {
-    databaseNames = ["Henry", "Sam", "Josh", "Sarah"];
-    databaseLevels = [12, 12, 12, 9];
-}
-//only remove and update leaderboard html if it's changed
-if (JSON.stringify(databaseNames) !== JSON.stringify(leaderboardNames) || 
-    JSON.stringify(databaseLevels) !== JSON.stringify(leaderboardLevels)) {
-    leaderboardNames = databaseNames;
-    leaderboardLevels = databaseLevels;
-    removeLeaderboard();
-    populateLeaderboard();
-}
+    //This is where I will grab data from database, this is just pretending to grab that data
+    console.log("Got to getLeaderboardFromDatabase");
+    databaseNames = [];
+    databaseLevels = [];
+    if (mockNewDatabaseData) {
+        databaseNames = ["Henry", "Sam", "Josh", "Sarah", "Jeremy"];
+        databaseLevels = [12, 12, 12, 9, 9];
+    }
+    else {
+        databaseNames = ["Henry", "Sam", "Josh", "Sarah"];
+        databaseLevels = [12, 12, 12, 9];
+    }
+    //only remove and update leaderboard html if it's changed
+    if (JSON.stringify(databaseNames) !== JSON.stringify(leaderboardNames) || 
+        JSON.stringify(databaseLevels) !== JSON.stringify(leaderboardLevels)) {
+        leaderboardNames = databaseNames;
+        leaderboardLevels = databaseLevels;
+        removeLeaderboard();
+        populateLeaderboard();
+    }
 }
 
 getLeaderboardFromDatabase();
@@ -109,41 +155,41 @@ function setTimer() {
         let seconds = Math.floor((distance % (1000 * 60)) / 1000);
         document.getElementById("demo").innerHTML = seconds + "s";
         if (mockNewDataDate < now) {
-        mockNewDatabaseData = true;
+            mockNewDatabaseData = true;
         }
         //update database every 5 seconds
         if (Math.floor((now % (1000 * 60)) / 1000) % 5 == 0) {
-        getLeaderboardFromDatabase();
+            getLeaderboardFromDatabase();
         }
         if (distance < 0) {
-        shouldShowModal = true;
+            shouldShowModal = true;
         }
         if (shouldShowModal == true) {
-        shouldShowModal = false;
-        clearInterval(x);
-        document.getElementById("demo").innerHTML = "EXPIRED";
-        showModal();
+            shouldShowModal = false;
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "EXPIRED";
+            showModal();
         }
 
     }, 1000);
 }
 
 function changeLevel() {
-//TODO: change html inner text of the typing level
-document.getElementById("typeInput").value = "";
-if (didPass) {
-    if (currLevel < 39) {
-    currLevel += 3;
+    //TODO: change html inner text of the typing level
+    document.getElementById("typeInput").value = "";
+    if (didPass) {
+        if (currLevel < 39) {
+        currLevel += 3;
+        }
     }
-}
-else {
-    currLevel = 9;
-}
-let levelNum = document.querySelector('#levelNum');
-levelNum.innerText = `Level: ${currLevel} WPM`;
-let levelText = document.querySelector('#levelText');
-levelText.innerText = levels[currLevel];
-setTimer();
+    else {
+        currLevel = 9;
+    }
+    let levelNum = document.querySelector('#levelNum');
+    levelNum.innerText = `Level: ${currLevel} WPM`;
+    let levelText = document.querySelector('#levelText');
+    levelText.innerText = levels[currLevel];
+    setTimer();
 }
 
 function replaceLeaderboard() {
@@ -153,4 +199,4 @@ function replaceLeaderboard() {
     list.appendChild(li);
     }
 
-    setTimer();
+setTimer();
