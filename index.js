@@ -113,6 +113,7 @@ let levels = {
     9: "He is nice",
     12: "You can sit here",
     15: "She went up the hill",
+    18: "He was a very kind man",
     21: "You can do it in a week",
     24: "I want to go see a fun movie",
     27: "Do you want to go to a ball game",
@@ -122,7 +123,6 @@ let levels = {
     39: "I can pick you up from your work if you want me to"
 }
 let logoutBtnEl = document.querySelector("#logoutBtn");
-console.log(sessionStorage.getItem("logoutFName"));
 logoutBtnEl.innerText = sessionStorage.getItem("logoutFName");
 let currLevel = 9;
 
@@ -241,7 +241,6 @@ function setTimer() {
 }
 
 function checkForHighScore() {
-    console.log("current user's FName: ", sessionStorage.getItem("currFName"));
     let maxLeaderboardLength = 5;
     let replaceIndex = -1;
     for (let i = leaderboardLevels.length - 1; i >= 0; i--) {
@@ -261,12 +260,9 @@ function checkForHighScore() {
             break;
         }
     }
-    console.log("replace index: ", replaceIndex);
     if (replaceIndex > -1) {
         leaderboardLevels.splice(replaceIndex, 0, currLevel);
         leaderboardNames.splice(replaceIndex, 0, sessionStorage.getItem("currFName"));
-        console.log("leaderboard Names: ", leaderboardNames);
-        console.log("leaderboard levels: ", leaderboardLevels);
         if (leaderboardLevels.length > maxLeaderboardLength) {
             leaderboardLevels = leaderboardLevels.slice(0, maxLeaderboardLength);
             leaderboardNames = leaderboardNames.slice(0, maxLeaderboardLength);
