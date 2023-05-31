@@ -1,6 +1,7 @@
 /**
  * Javascript for index.html
  */
+// const app = require('../server');
 
 let currUsername = sessionStorage.getItem("currUsername");
 let currFName = sessionStorage.getItem("currFName");
@@ -9,6 +10,7 @@ let logoutFName = sessionStorage.getItem("logoutFName");
 let usernames = [];
 let firstNames = [];
 let passwords = [];
+
 
 function getUsersData() {
     usernames = ["Henry95", "Josh96", "Jeremy97", "Sam98", "Sarah99", "test"];
@@ -103,7 +105,13 @@ function login(event = null) {
  */
 
 let leaderboardNames = ["Henry", "Sam", "Josh", "Sarah"];
+// request(app)
+//     .put('/store/provo')
+//     .send({names: leaderboardNames});
 let leaderboardLevels = [12, 12, 12, 9];
+// request(app)
+//     .put('/store/provo')
+//     .send({levels: leaderboardLevels});
 let mockNewDatabaseData = false;
 let loadPageTime = new Date().getTime();
 let updateSeconds = 10;
@@ -185,25 +193,30 @@ function populateLeaderboard() {
 populateLeaderboard();
 
 function getLeaderboardFromDatabase() {
-    //This is where I will grab data from database, this is just pretending to grab that data
-    databaseNames = [];
-    databaseLevels = [];
-    if (mockNewDatabaseData) {
-        databaseNames = ["Henry", "Sam", "Josh", "Sarah", "Jeremy"];
-        databaseLevels = [12, 12, 12, 9, 9];
-    }
-    else {
-        databaseNames = ["Henry", "Sam", "Josh", "Sarah"];
-        databaseLevels = [12, 12, 12, 9];
-    }
-    //only remove and update leaderboard html if it's changed
-    if (JSON.stringify(databaseNames) !== JSON.stringify(leaderboardNames) || 
-        JSON.stringify(databaseLevels) !== JSON.stringify(leaderboardLevels)) {
-        leaderboardNames = databaseNames;
-        leaderboardLevels = databaseLevels;
-        removeLeaderboard();
-        populateLeaderboard();
-    }
+    // let databaseLevels = request(app)
+    //     .get('/store/provo');
+    // console.log(databaseLevels);
+
+    
+    // //This is where I will grab data from database, this is just pretending to grab that data
+    // databaseNames = [];
+    // databaseLevels = [];
+    // if (mockNewDatabaseData) {
+    //     databaseNames = ["Henry", "Sam", "Josh", "Sarah", "Jeremy"];
+    //     databaseLevels = [12, 12, 12, 9, 9];
+    // }
+    // else {
+    //     databaseNames = ["Henry", "Sam", "Josh", "Sarah"];
+    //     databaseLevels = [12, 12, 12, 9];
+    // }
+    // //only remove and update leaderboard html if it's changed
+    // if (JSON.stringify(databaseNames) !== JSON.stringify(leaderboardNames) || 
+    //     JSON.stringify(databaseLevels) !== JSON.stringify(leaderboardLevels)) {
+    //     leaderboardNames = databaseNames;
+    //     leaderboardLevels = databaseLevels;
+    //     removeLeaderboard();
+    //     populateLeaderboard();
+    // }
 }
 
 getLeaderboardFromDatabase();
