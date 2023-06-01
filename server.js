@@ -7,13 +7,21 @@ const app = express();
 app.use(express.json());
 
 // Endpoints
-app.get('/store/:storeName', (req, res) => {
-  res.send({ name: req.params.storeName });
+const data = {
+  usernames: ["Henry95", "Josh96", "Jeremy97", "Sam98", "Sarah99", "test"],
+  firstNames: ["Henry", "Josh", "Jeremy", "Sam", "Sarah", "TestUser"],
+  passwords: ["hotdog", "pineapple", "banana", "strawberry", "blueberry", "test"]
+}
+
+app.get('/leaderboard', (req, res) => {
+  res.send({ leaderboard:data });
 });
 
-app.put('/store/:storeName', (req, res) => {
-  req.body.updated = true;
-  res.send(req.body);
+app.put('/leaderboard', (req, res) => {
+  data.newUsername = req.body.username;
+  data.newFirstname = req.body.firstname;
+  data.newPassword = req.body.password;
+  res.send({ leaderboard:data });
 });
 
 export default app;

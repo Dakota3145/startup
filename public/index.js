@@ -1,9 +1,7 @@
 /**
  * Javascript for index.html
  */
-// const app = require('./../server.js');
-import app from '../server.js';
-// import './../server.js';
+
 
 let currUsername = sessionStorage.getItem("currUsername");
 let currFName = sessionStorage.getItem("currFName");
@@ -14,12 +12,26 @@ let firstNames = [];
 let passwords = [];
 
 
-function getUsersData() {
-    usernames = ["Henry95", "Josh96", "Jeremy97", "Sam98", "Sarah99", "test"];
-    firstNames = ["Henry", "Josh", "Jeremy", "Sam", "Sarah", "TestUser"];
-    passwords = ["hotdog", "pineapple", "banana", "strawberry", "blueberry", "test"];
+async function getUsersData() {
+    const response = await fetch('/leaderboard');
+    const data = await response.json();
+    usernames = data.leaderboard.usernames;
+    firstNames = data.leaderboard.firstNames;
+    passwords = data.leaderboard.passwords;
 }
 
+async function addUser(score) {
+    const response = await fetch('/leaderboard', {
+        method: 'put',
+        body: JSON.stringify(score),
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+    const data = await response.json();
+    console.log(data);
+}
+// addUser( { username: 'joe23', firstname: 'joe', password: 'oreo' });
 getUsersData();
 
 function login(event = null) {
