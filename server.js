@@ -6,22 +6,22 @@ const app = express();
 app.use(express.json());
 
 // Endpoints
-const data = {
+const userData = {
   usernames: ["Henry95", "Josh96", "Jeremy97", "Sam98", "Sarah99", "test"],
   firstNames: ["Henry", "Josh", "Jeremy", "Sam", "Sarah", "TestUser"],
   passwords: ["hotdog", "pineapple", "banana", "strawberry", "blueberry", "test"]
 }
 
 app.get('/users', (req, res) => {
-  res.send({ users:data });
+  res.send({ users:userData });
 });
 
 app.put('/users', (req, res) => {
-  data.usernames.push(req.body.username);
-  data.firstNames.push(req.body.firstname);
-  data.passwords.push(req.body.password);
-  console.log(data);
-  res.send({ users:data });
+  userData.usernames.push(req.body.username);
+  userData.firstNames.push(req.body.firstname);
+  userData.passwords.push(req.body.password);
+  console.log(userData);
+  res.send({ users:userData });
 });
 
 export default app;
