@@ -3,7 +3,6 @@ import express from 'express';
 // import * as url from 'url';
 const app = express();
 
-
 app.use(express.json());
 
 // Endpoints
@@ -13,15 +12,16 @@ const data = {
   passwords: ["hotdog", "pineapple", "banana", "strawberry", "blueberry", "test"]
 }
 
-app.get('/leaderboard', (req, res) => {
-  res.send({ leaderboard:data });
+app.get('/users', (req, res) => {
+  res.send({ users:data });
 });
 
-app.put('/leaderboard', (req, res) => {
-  data.newUsername = req.body.username;
-  data.newFirstname = req.body.firstname;
-  data.newPassword = req.body.password;
-  res.send({ leaderboard:data });
+app.put('/users', (req, res) => {
+  data.usernames.push(req.body.username);
+  data.firstNames.push(req.body.firstname);
+  data.passwords.push(req.body.password);
+  console.log(data);
+  res.send({ users:data });
 });
 
 export default app;

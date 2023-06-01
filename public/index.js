@@ -13,24 +13,13 @@ let passwords = [];
 
 
 async function getUsersData() {
-    const response = await fetch('/leaderboard');
+    const response = await fetch('/users');
     const data = await response.json();
-    usernames = data.leaderboard.usernames;
-    firstNames = data.leaderboard.firstNames;
-    passwords = data.leaderboard.passwords;
+    usernames = data.users.usernames;
+    firstNames = data.users.firstNames;
+    passwords = data.users.passwords;
 }
 
-async function addUser(score) {
-    const response = await fetch('/leaderboard', {
-        method: 'put',
-        body: JSON.stringify(score),
-        headers: {
-            'content-type': 'application/json'
-        }
-    })
-    const data = await response.json();
-    console.log(data);
-}
 // addUser( { username: 'joe23', firstname: 'joe', password: 'oreo' });
 getUsersData();
 
@@ -70,6 +59,18 @@ function login(event = null) {
  * Javascript for signup.html
  */
 
+async function addUser(user) {
+    const response = await fetch('/users', {
+        method: 'put',
+        body: JSON.stringify(user),
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+    const data = await response.json();
+    console.log(data);
+}
+
  function signup(event = null) {
     if (event != null) {
         event.preventDefault();
@@ -99,6 +100,12 @@ function login(event = null) {
             // let logoutEl = document.querySelector("#logoutBtn");
             // logoutEl.innerText = currFName + " - Logout";
             sessionStorage.setItem("logoutFName", fnameInput + " - Logout");
+            let user = {
+                username: usernameInput,
+                firstname: fnameInput,
+                password: passwordInput
+            }
+            addUser(user);
             window.open("typing.html", "_self");
         }
         //if username is already saved, show error modal
