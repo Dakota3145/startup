@@ -1,21 +1,27 @@
 
-let leaderboardNames = ["Henry", "Sam", "Josh", "Sarah"];
-// request(app)
-//     .put('/store/provo')
-//     .send({names: leaderboardNames});
-let leaderboardLevels = [12, 12, 12, 9];
-// request(app)
-//     .put('/store/provo')
-//     .send({levels: leaderboardLevels});
+let leaderboardNames = [];
+let leaderboardLevels = [];
 
-// async function getLeaderboardData() {
-//     const response = await fetch('/leaderboard');
-//     const data = await response.json();
-//     usernames = data.users.usernames;
-//     firstNames = data.users.firstNames;
-//     passwords = data.users.passwords;
-// }
-// getLeaderboardData();
+function populateLeaderboard() {
+    let list = document.getElementById("leaderboard");
+    let leaderboardText = "";
+    for (i = 0; i < leaderboardNames.length; ++i) {
+        let li = document.createElement('li');
+        leaderboardText = `${leaderboardNames[i]}: ${leaderboardLevels[i]} WPM`;
+        li.innerText = leaderboardText;
+        list.appendChild(li);
+    }
+}
+
+async function getLeaderboardData() {
+    const response = await fetch('/leaderboard');
+    const data = await response.json();
+    leaderboardNames = data.leaderboard.names;
+    leaderboardLevels = data.leaderboard.levels;
+    populateLeaderboard();
+}
+
+getLeaderboardData();
 let mockNewDatabaseData = false;
 let loadPageTime = new Date().getTime();
 let updateSeconds = 10;
@@ -84,47 +90,6 @@ function removeLeaderboard() {
     removeAllChildNodes(leaderboardList)
 }
 
-function populateLeaderboard() {
-    let list = document.getElementById("leaderboard");
-    let leaderboardText = "";
-    for (i = 0; i < leaderboardNames.length; ++i) {
-        let li = document.createElement('li');
-        leaderboardText = `${leaderboardNames[i]}: ${leaderboardLevels[i]} WPM`;
-        li.innerText = leaderboardText;
-        list.appendChild(li);
-    }
-}
-populateLeaderboard();
-
-// function getLeaderboard() {
-    // let databaseLevels = request(app)
-    //     .get('/store/provo');
-    // console.log(databaseLevels);
-
-
-    // //This is where I will grab data from database, this is just pretending to grab that data
-    // databaseNames = [];
-    // databaseLevels = [];
-    // if (mockNewDatabaseData) {
-    //     databaseNames = ["Henry", "Sam", "Josh", "Sarah", "Jeremy"];
-    //     databaseLevels = [12, 12, 12, 9, 9];
-    // }
-    // else {
-    //     databaseNames = ["Henry", "Sam", "Josh", "Sarah"];
-    //     databaseLevels = [12, 12, 12, 9];
-    // }
-    // //only remove and update leaderboard html if it's changed
-    // if (JSON.stringify(databaseNames) !== JSON.stringify(leaderboardNames) || 
-    //     JSON.stringify(databaseLevels) !== JSON.stringify(leaderboardLevels)) {
-    //     leaderboardNames = databaseNames;
-    //     leaderboardLevels = databaseLevels;
-    //     removeLeaderboard();
-    //     populateLeaderboard();
-    // }
-// }
-
-// getLeaderboard();
-
 function setTimer() {
     // Set the date we're counting down to
     let curr = new Date().getTime();
@@ -157,6 +122,22 @@ function setTimer() {
     }, 1000);
 }
 
+async function replaceLeaderboardData() {
+    let leaderboard = {
+        names: leaderboardNames,
+        levels: leaderboardLevels
+    }
+    const response = await fetch('/leaderboard', {
+        method: 'put',
+        body: JSON.stringify(leaderboard),
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+    const data = await response.json();
+    console.log(data);
+}
+
 function checkForHighScore() {
     let maxLeaderboardLength = 5;
     let replaceIndex = -1;
@@ -185,7 +166,8 @@ function checkForHighScore() {
             leaderboardNames = leaderboardNames.slice(0, maxLeaderboardLength);
         }
         removeLeaderboard();
-        populateLeaderboard();
+        replaceLeaderboardData();
+        getLeaderboardData();
     }
 }
 

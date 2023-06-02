@@ -12,6 +12,11 @@ const userData = {
   passwords: ["hotdog", "pineapple", "banana", "strawberry", "blueberry", "test"]
 }
 
+const leaderboardData = {
+  names: ["Henry", "Sam", "Josh", "Sarah"],
+  levels: [12, 12, 12, 9]
+}
+
 app.get('/users', (req, res) => {
   res.send({ users:userData });
 });
@@ -22,6 +27,17 @@ app.put('/users', (req, res) => {
   userData.passwords.push(req.body.password);
   console.log(userData);
   res.send({ users:userData });
+});
+
+app.get('/leaderboard', (req, res) => {
+  res.send({ leaderboard:leaderboardData });
+});
+
+app.put('/leaderboard', (req, res) => {
+  leaderboardData.names = req.body.names;
+  leaderboardData.levels = req.body.levels;
+  console.log(leaderboardData);
+  res.send({ leaderboard:leaderboardData });
 });
 
 export default app;
