@@ -6,6 +6,7 @@
 3. Your frontend calls third party service endpoints - Found in /public/typing.js line 196-202
 4. Your backend provides service endpoints - Found in /server.js
 5. Your frontend calls your service endpoints - Found in /public/index.js line 15-21, /public/signup.js line 7-13, line 16-26, /public/typing.js line 16-22, line 130-137
+6. Multiple Git commits with meaningful comments - Roughly 12 commits for Service Startup
 
 ## Elevator Pitch
 Have you ever wondered how fast you type? Are you looking for a new challenge? Try out this new Typing Game! Take on increasingly harder levels of typing and see how fast you can type! Leaderboards show who's the best typer out there. Can you be the best typer? Find out with the Typing Game!
