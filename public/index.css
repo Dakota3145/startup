@@ -95,7 +95,7 @@ body {
 }
 
 #notification {
-  animation-duration: 10s;
+  animation-duration: 5s;
   animation-name: slidein;
 }
 
@@ -104,7 +104,7 @@ body {
     transform: translateX(200%);
   }
 
-  90% {
+  80% {
     transform: translateX(200%);
   }
   

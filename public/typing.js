@@ -135,7 +135,6 @@ async function replaceLeaderboardData() {
         }
     })
     const data = await response.json();
-    console.log(data);
 }
 
 function checkForHighScore() {
@@ -194,11 +193,14 @@ function changeLevel() {
     setTimer();
 }
 
-function replaceLeaderboard() {
-    let list = document.getElementById("leaderboard");
-    let li = document.createElement('li');
-    li.innerText = "Jeremy: 9 WPM";
-    list.appendChild(li);
-    }
+async function setRandomName() {
+    const response = await fetch("https://randomuser.me/api/");
+    const data = await response.json();
+    const randomName = data.results[0].name.first;
+    let notification = document.querySelector('#notification');
+    notification.innerText = randomName + ' just got 9 WPM!';
+}
+
+setRandomName();
 
 setTimer();
