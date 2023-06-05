@@ -1,6 +1,6 @@
 # The Typing Game
 
-## Grading Rubric help for Service Startup for T.A's
+## Grading Rubric help for Service Startup for TAs
 1. Create an HTTP service using Node.js and Express - Found in /server.js and /index.js
 2. Frontend served up using express static middleware - Found in /server.js line 46
 3. Your frontend calls third party service endpoints - Found in /public/typing.js line 196-202
