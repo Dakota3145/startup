@@ -14,10 +14,19 @@ function populateLeaderboard() {
 }
 
 async function getLeaderboardData() {
-    const response = await fetch('/leaderboard');
-    const data = await response.json();
-    leaderboardNames = data.leaderboard.names;
-    leaderboardLevels = data.leaderboard.levels;
+    try {
+        const response = await fetch('/api/leaderboard');
+        const data = await response.json();
+        leaderboardNames = data.map(data => data.username);
+        leaderboardLevels = data.map(data => data.level);
+    }
+    catch (error) {
+        console.log("Failed to add user because: ", error.message);
+    }
+    // const response = await fetch('/leaderboard');
+    // const data = await response.json();
+    // leaderboardNames = data.leaderboard.names;
+    // leaderboardLevels = data.leaderboard.levels;
     populateLeaderboard();
 }
 
@@ -122,20 +131,40 @@ function setTimer() {
     }, 1000);
 }
 
-async function replaceLeaderboardData() {
-    let leaderboard = {
-        names: leaderboardNames,
-        levels: leaderboardLevels
+async function addScoreData(score) {
+    try {
+        const response = await fetch('/api/score', {
+            method: 'POST',
+            body: JSON.stringify(score),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        const data = await response.json();
+        console.log(data);
+    }   
+    catch (error) {
+        console.log("Failed to add score because: ", error.message);
     }
-    const response = await fetch('/leaderboard', {
-        method: 'put',
-        body: JSON.stringify(leaderboard),
-        headers: {
-            'content-type': 'application/json'
-        }
-    })
-    const data = await response.json();
 }
+
+async function deleteScoreData(score) {
+    try {
+        const response = await fetch('/api/score', {
+            method: 'DELETE',
+            body: JSON.stringify(score),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        const data = await response.json();
+        console.log(data);
+    }   
+    catch (error) {
+        console.log("Failed to delete score because: ", error.message);
+    }
+}
+
 
 function checkForHighScore() {
     let maxLeaderboardLength = 5;
@@ -158,14 +187,19 @@ function checkForHighScore() {
         }
     }
     if (replaceIndex > -1) {
-        leaderboardLevels.splice(replaceIndex, 0, currLevel);
-        leaderboardNames.splice(replaceIndex, 0, sessionStorage.getItem("currFName"));
-        if (leaderboardLevels.length > maxLeaderboardLength) {
-            leaderboardLevels = leaderboardLevels.slice(0, maxLeaderboardLength);
-            leaderboardNames = leaderboardNames.slice(0, maxLeaderboardLength);
+        if (leaderboardLevels.length == maxLeaderboardLength) {
+            const removeScore = {
+                "username": leaderboardNames[maxLeaderboardLength - 1],
+                "level": leaderboardLevels[maxLeaderboardLength - 1]
+            }
+            deleteScoreData(removeScore);
+        }
+        const addScore = {
+            "username": sessionStorage.getItem("currUsername"),
+            "level": currLevel
         }
         removeLeaderboard();
-        replaceLeaderboardData();
+        addScoreData(addScore);
         getLeaderboardData();
     }
 }

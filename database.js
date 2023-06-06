@@ -5,6 +5,7 @@ const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostna
 const client = new MongoClient(url);
 const db = client.db('myDB');
 const userCollection = db.collection('users');
+const leaderboardCollection = db.collection('leaderboard');
 
 // This will asynchronously test the connection and exit the process if it fails
 (async function testConnection() {
@@ -30,4 +31,32 @@ async function getUsers() {
     return cursorArray;
 }
 
-module.exports = { addUser, getUsers };
+async function addScore(score) {
+    const result = await leaderboardCollection.insertOne(score);
+    return result;
+}
+
+async function getLeaderboard() {
+    const options = {
+      sort: { level: -1 },
+      limit: 5,
+    };
+    const cursor = await leaderboardCollection.find({}, options);
+    const cursorArray = await cursor.toArray();
+    return cursorArray;
+}
+
+async function deleteScore(score) {
+    try {
+        const result = leaderboardCollection.deleteOne( 
+            { 
+                "username" : score.username,
+                "level": score.level 
+            } );
+        return result;
+     } catch (error) {
+        console.log("failed to delete score because: ", error.message);
+     }
+}
+
+module.exports = { addUser, getUsers, addScore, getLeaderboard, deleteScore };
