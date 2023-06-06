@@ -25,7 +25,7 @@ apiRouter.get('/users', async (_req, res) => {
   res.send(users);
 });
 
-apiRouter.post('/users', async (req, res) => {
+apiRouter.post('/user', async (req, res) => {
   DB.addUser(req.body);
   const users = await DB.getUsers();
   res.send(users);

@@ -14,11 +14,16 @@ let passwords = [];
 
 
 async function getUsersData() {
-    const response = await fetch('/api/users');
-    const data = await response.json();
-    usernames = data.map(data => data.username);
-    firstNames = data.map(data => data.firstname);
-    passwords = data.map(data => data.password);
+    try {
+        const response = await fetch('/api/users');
+        const data = await response.json();
+        usernames = data.map(data => data.username);
+        firstNames = data.map(data => data.firstname);
+        passwords = data.map(data => data.password);
+    }
+    catch (error) {
+        console.log("Failed to add user because: ", error.message);
+    }
 }
 
 // addUser( { username: 'joe23', firstname: 'joe', password: 'oreo' });

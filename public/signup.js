@@ -5,24 +5,29 @@ let passwords = [];
 
 
 async function getUsersData() {
-    const response = await fetch('/users');
+    const response = await fetch('/api/users');
     const data = await response.json();
-    usernames = data.users.usernames;
-    firstNames = data.users.firstNames;
-    passwords = data.users.passwords;
+    usernames = data.map(data => data.username);
+    firstNames = data.map(data => data.firstname);
+    passwords = data.map(data => data.password);
 }
 getUsersData();
 
 async function addUser(user) {
-    const response = await fetch('/users', {
-        method: 'put',
-        body: JSON.stringify(user),
-        headers: {
-            'content-type': 'application/json'
-        }
-    })
-    const data = await response.json();
-    console.log(data);
+    try {
+        const response = await fetch('/api/user', {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        const data = await response.json();
+        console.log(data);
+    }   
+    catch (error) {
+        console.log("Failed to add user because: ", error.message);
+    }
 }
 
  function signup(event = null) {
