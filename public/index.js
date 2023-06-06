@@ -7,17 +7,18 @@ let currUsername = sessionStorage.getItem("currUsername");
 let currFName = sessionStorage.getItem("currFName");
 let logoutFName = sessionStorage.getItem("logoutFName");
 
+
 let usernames = [];
 let firstNames = [];
 let passwords = [];
 
 
 async function getUsersData() {
-    const response = await fetch('/users');
+    const response = await fetch('/api/users');
     const data = await response.json();
-    usernames = data.users.usernames;
-    firstNames = data.users.firstNames;
-    passwords = data.users.passwords;
+    usernames = data.map(data => data.username);
+    firstNames = data.map(data => data.firstname);
+    passwords = data.map(data => data.password);
 }
 
 // addUser( { username: 'joe23', firstname: 'joe', password: 'oreo' });

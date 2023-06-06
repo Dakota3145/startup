@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const DB = require('./database.js');
 
 app.use(express.json());
 
@@ -15,16 +16,19 @@ const leaderboardData = {
   levels: [12, 12, 12, 9]
 }
 
-app.get('/users', (req, res) => {
-  res.send({ users:userData });
+let apiRouter = express.Router();
+app.use(`/api`, apiRouter);
+
+
+apiRouter.get('/users', async (_req, res) => {
+  const users = await DB.getUsers();
+  res.send(users);
 });
 
-app.put('/users', (req, res) => {
-  userData.usernames.push(req.body.username);
-  userData.firstNames.push(req.body.firstname);
-  userData.passwords.push(req.body.password);
-  console.log(userData);
-  res.send({ users:userData });
+apiRouter.post('/users', async (req, res) => {
+  DB.addUser(req.body);
+  const users = await DB.getUsers();
+  res.send(users);
 });
 
 app.get('/leaderboard', (req, res) => {
