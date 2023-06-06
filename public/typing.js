@@ -1,4 +1,9 @@
 
+console.log("currUsername sessionStorage: ", sessionStorage.getItem("currUsername"));
+if (sessionStorage.getItem("currUsername") == null) {
+    window.open("index.html", "_self");
+}
+
 let leaderboardNames = [];
 let leaderboardLevels = [];
 
@@ -50,7 +55,9 @@ let levels = {
     39: "I can pick you up from your work if you want me to"
 }
 let logoutBtnEl = document.querySelector("#logoutBtn");
-logoutBtnEl.innerText = sessionStorage.getItem("logoutFName");
+if (sessionStorage.getItem("logoutFName").length > 0) {
+    logoutBtnEl.innerText = sessionStorage.getItem("logoutFName");
+}
 let currLevel = 9;
 
 function showModal(event = null) {
@@ -110,7 +117,7 @@ function setTimer() {
         let now = new Date().getTime();
         let distance = countDownDate - now;
         let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        document.getElementById("demo").innerHTML = seconds + "s";
+        document.getElementById("timer").innerHTML = seconds + "s";
         if (mockNewDataDate < now) {
             mockNewDatabaseData = true;
         }
@@ -124,7 +131,7 @@ function setTimer() {
         if (shouldShowModal == true) {
             shouldShowModal = false;
             clearInterval(x);
-            document.getElementById("demo").innerHTML = "EXPIRED";
+            document.getElementById("timer").innerHTML = "EXPIRED";
             showModal();
         }
 
