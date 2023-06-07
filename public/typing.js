@@ -1,5 +1,4 @@
 
-console.log("currUsername sessionStorage: ", sessionStorage.getItem("currUsername"));
 if (sessionStorage.getItem("currUsername") == null) {
     window.open("/", "_self");
 }
@@ -103,7 +102,6 @@ function removeLeaderboard() {
 }
 
 async function checkForLeaderboardUpdate() {
-    console.log("checking for database updates...");
     try {
         const response = await fetch('/api/leaderboard');
         const data = await response.json();
@@ -111,7 +109,6 @@ async function checkForLeaderboardUpdate() {
         let databaseLevels = data.map(data => data.level);
         if (JSON.stringify(databaseNames) !== JSON.stringify(leaderboardNames) ||
             JSON.stringify(databaseLevels) !== JSON.stringify(leaderboardLevels)) {
-                console.log("updating leaderboard to match database...");
                 leaderboardNames = databaseNames;
                 leaderboardLevels = databaseLevels;
                 removeLeaderboard();
