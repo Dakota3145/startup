@@ -1,7 +1,7 @@
 
 console.log("currUsername sessionStorage: ", sessionStorage.getItem("currUsername"));
 if (sessionStorage.getItem("currUsername") == null) {
-    window.open("index.html", "_self");
+    window.open("/", "_self");
 }
 
 let leaderboardNames = [];
@@ -28,10 +28,6 @@ async function getLeaderboardData() {
     catch (error) {
         console.log("Failed to add user because: ", error.message);
     }
-    // const response = await fetch('/leaderboard');
-    // const data = await response.json();
-    // leaderboardNames = data.leaderboard.names;
-    // leaderboardLevels = data.leaderboard.levels;
     populateLeaderboard();
 }
 
@@ -68,7 +64,7 @@ function showModal(event = null) {
     let modalEl = document.querySelector('#typingModal');
     let modalText = document.querySelector('#typingModalText');
     let maxLevel = 39;
-    if (inputVal != null && inputVal == levels[currLevel]) {
+    if (inputVal != null && inputVal.toLowerCase() == levels[currLevel].toLowerCase()) {
         didPass = true;
         if (currLevel == maxLevel) {
             modalText.innerText = "Passed! You passed all of the levels! Start from the beginning to see if you can pass the levels again!";
@@ -106,6 +102,27 @@ function removeLeaderboard() {
     removeAllChildNodes(leaderboardList)
 }
 
+async function checkForLeaderboardUpdate() {
+    console.log("checking for database updates...");
+    try {
+        const response = await fetch('/api/leaderboard');
+        const data = await response.json();
+        let databaseNames = data.map(data => data.username);
+        let databaseLevels = data.map(data => data.level);
+        if (JSON.stringify(databaseNames) !== JSON.stringify(leaderboardNames) ||
+            JSON.stringify(databaseLevels) !== JSON.stringify(leaderboardLevels)) {
+                console.log("updating leaderboard to match database...");
+                leaderboardNames = databaseNames;
+                leaderboardLevels = databaseLevels;
+                removeLeaderboard();
+                populateLeaderboard();
+        }
+    }
+    catch (error) {
+        console.log("Failed to add user because: ", error.message);
+    }
+}
+
 function setTimer() {
     // Set the date we're counting down to
     let curr = new Date().getTime();
@@ -123,7 +140,7 @@ function setTimer() {
         }
         //update database every 5 seconds
         if (Math.floor((now % (1000 * 60)) / 1000) % 5 == 0) {
-            //getLeaderboardFromDatabase();
+            checkForLeaderboardUpdate();
         }
         if (distance < 0) {
             shouldShowModal = true;
