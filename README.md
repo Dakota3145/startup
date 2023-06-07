@@ -1,12 +1,11 @@
 # The Typing Game
 
-## Grading Rubric help for Service Startup for TAs
-1. Create an HTTP service using Node.js and Express - Found in /server.js and /index.js
-2. Frontend served up using express static middleware - Found in /server.js line 46
-3. Your frontend calls third party service endpoints - Found in /public/typing.js line 196-202
-4. Your backend provides service endpoints - Found in /server.js
-5. Your frontend calls your service endpoints - Found in /public/index.js line 15-21, /public/signup.js line 7-13, line 16-26, /public/typing.js line 16-22, line 130-137
-6. Multiple Git commits with meaningful comments - Roughly 12 commits for Service Startup
+## Grading Rubric help for Startup DB for TAs
+1. MongoDB Atlas database created - <img width="800" alt="Screen Shot 2023-06-06 at 4 48 20 PM" src="https://github.com/Dakota3145/startup/assets/77128933/b9cada5f-446b-4d87-bad3-7921e79114ae">
+
+2. Provides backend endpoints for manipulating application data - Found in /server.js
+3. Stores application data in MongoDB - Found in /database.js
+4. Multiple Git commits with meaningful comments - Roughly 7 commits for Startup DB
 
 ## Elevator Pitch
 Have you ever wondered how fast you type? Are you looking for a new challenge? Try out this new Typing Game! Take on increasingly harder levels of typing and see how fast you can type! Leaderboards show who's the best typer out there. Can you be the best typer? Find out with the Typing Game!
