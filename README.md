@@ -4,7 +4,7 @@
 1. MongoDB Atlas database created - <img width="800" alt="Screen Shot 2023-06-06 at 4 48 20 PM" src="https://github.com/Dakota3145/startup/assets/77128933/b9cada5f-446b-4d87-bad3-7921e79114ae">
 
 2. Provides backend endpoints for manipulating application data - Found in /server.js
-3. Stores application data in MongoDB - Found in /database.js
+3. Stores application data in MongoDB - MongoDB functions in /database.js, MongoDB calls found in /public/index.js line 16-27, /public/signup.js line 7-31, and /public/typing.js line 20-31, line 104-121, and line 155-187 
 4. Multiple Git commits with meaningful comments - Roughly 7 commits for Startup DB
 
 ## Elevator Pitch
