@@ -49,6 +49,9 @@ let levels = {
     36: "Can you get that to me by the end of the day",
     39: "I can pick you up from your work if you want me to"
 }
+const HighScoreEvent = 'highScore';
+let socket;
+const maxNotifications = 5;
 let logoutBtnEl = document.querySelector("#logoutBtn");
 if (sessionStorage.getItem("logoutFName").length > 0) {
     logoutBtnEl.innerText = sessionStorage.getItem("logoutFName");
@@ -136,9 +139,9 @@ function setTimer() {
             mockNewDatabaseData = true;
         }
         //update database every 5 seconds
-        if (Math.floor((now % (1000 * 60)) / 1000) % 5 == 0) {
-            checkForLeaderboardUpdate();
-        }
+        // if (Math.floor((now % (1000 * 60)) / 1000) % 5 == 0) {
+        //     checkForLeaderboardUpdate();
+        // }
         if (distance < 0) {
             shouldShowModal = true;
         }
@@ -162,7 +165,6 @@ async function addScoreData(score) {
             }
         })
         const data = await response.json();
-        console.log(data);
     }   
     catch (error) {
         console.log("Failed to add score because: ", error.message);
@@ -179,7 +181,6 @@ async function deleteScoreData(score) {
             }
         })
         const data = await response.json();
-        console.log(data);
     }   
     catch (error) {
         console.log("Failed to delete score because: ", error.message);
@@ -207,6 +208,9 @@ function checkForHighScore() {
             break;
         }
     }
+    if (replaceIndex == -1 && leaderboardLevels.length < maxLeaderboardLength){
+        replaceIndex = leaderboardLevels.length;
+    }
     if (replaceIndex > -1) {
         if (leaderboardLevels.length == maxLeaderboardLength) {
             const removeScore = {
@@ -222,6 +226,7 @@ function checkForHighScore() {
         removeLeaderboard();
         addScoreData(addScore);
         getLeaderboardData();
+        broadcastEvent(sessionStorage.getItem("currUsername"), HighScoreEvent, currLevel);
     }
 }
 
@@ -248,14 +253,49 @@ function changeLevel() {
     setTimer();
 }
 
-async function setRandomName() {
-    const response = await fetch("https://randomuser.me/api/");
-    const data = await response.json();
-    const randomName = data.results[0].name.first;
-    let notification = document.querySelector('#notification');
-    notification.innerText = randomName + ' just got 9 WPM!';
+setTimer();
+
+async function configureWebSocket() {
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    socket.onmessage = async (event) => {
+      const msg = JSON.parse(await event.data.text());
+      if (msg.type === HighScoreEvent) {
+        removeLeaderboard();
+        getLeaderboardData();
+        displayMsg('player', msg.from, `scored ${msg.value} WPM!`);
+
+      } 
+    };
 }
 
-setRandomName();
+configureWebSocket();
 
-setTimer();
+function removeLastNotification() {
+    const chatText = document.querySelector('#messages');
+    const allNotifications = document.querySelectorAll('.notification');
+    const lastNotification = allNotifications[allNotifications.length - 1];
+    chatText.removeChild(lastNotification);
+}
+
+function displayMsg(cls, from, msg) {
+    const chatText = document.querySelector('#messages');
+    const newNotification = document.createElement("li");
+    const newText = document.createTextNode(`${from} ${msg}`);
+    newNotification.className = "notification";
+    newNotification.appendChild(newText);
+    chatText.prepend(newNotification);
+    const allNotifications = document.querySelectorAll('.notification');
+    if (allNotifications.length > maxNotifications) {
+        removeLastNotification();
+    }
+}
+
+function broadcastEvent(from, type, value) {
+    const event = {
+      from: from,
+      type: type,
+      value: value,
+    };
+    socket.send(JSON.stringify(event));
+}

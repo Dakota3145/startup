@@ -4,6 +4,8 @@ const DB = require('./database.js');
 
 app.use(express.json());
 
+app.set('trust proxy', true);
+
 // Endpoints
 
 let apiRouter = express.Router();

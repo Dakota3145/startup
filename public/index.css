@@ -94,17 +94,13 @@ body {
   grid-row: 2;
 }
 
-#notification {
-  animation-duration: 5s;
+.notification {
+  animation-duration: 1s;
   animation-name: slidein;
 }
 
 @keyframes slidein {
   0% {
-    transform: translateX(200%);
-  }
-
-  80% {
     transform: translateX(200%);
   }
   
