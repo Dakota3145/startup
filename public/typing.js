@@ -259,17 +259,17 @@ async function configureWebSocket() {
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
     socket.onopen = (event) => {
-        displayMsg('system', 'game', 'ready to send/receive notifications');
+        displayMsg('game', 'ready to send/receive notifications');
       };
       socket.onclose = (event) => {
-        displayMsg('system', 'game', 'unable to send/receive notifications');
+        displayMsg('game', 'unable to send/receive notifications');
       };
     socket.onmessage = async (event) => {
       const msg = JSON.parse(await event.data.text());
       if (msg.type === HighScoreEvent) {
         removeLeaderboard();
         getLeaderboardData();
-        displayMsg('player', msg.from, `scored ${msg.value} WPM!`);
+        displayMsg(msg.from, `scored ${msg.value} WPM!`);
 
       } 
     };
@@ -284,7 +284,7 @@ function removeLastNotification() {
     chatText.removeChild(lastNotification);
 }
 
-function displayMsg(cls, from, msg) {
+function displayMsg(from, msg) {
     const chatText = document.querySelector('#messages');
     const newNotification = document.createElement("li");
     const newText = document.createTextNode(`${from} ${msg}`);
