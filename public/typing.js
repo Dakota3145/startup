@@ -188,7 +188,7 @@ async function deleteScoreData(score) {
 }
 
 
-function checkForHighScore() {
+async function checkForHighScore() {
     let maxLeaderboardLength = 5;
     let replaceIndex = -1;
     for (let i = leaderboardLevels.length - 1; i >= 0; i--) {
@@ -223,8 +223,8 @@ function checkForHighScore() {
             "username": sessionStorage.getItem("currUsername"),
             "level": currLevel
         }
+        await addScoreData(addScore);
         removeLeaderboard();
-        addScoreData(addScore);
         getLeaderboardData();
         broadcastEvent(sessionStorage.getItem("currUsername"), HighScoreEvent, currLevel);
     }
