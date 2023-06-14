@@ -1,0 +1,124 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+  }
+  
+  html {
+    height: 100%;
+  }
+  
+  header {
+    flex: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+  }
+  
+  h1,
+  h2 {
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    margin-bottom: 0;
+    font-weight: bold;
+  }
+  
+  h1 {
+    font-size: 3vw;
+  }
+  
+  h2 {
+    font-size: 2vw;
+  }
+  
+  p {
+    font-size: 1.5vw;
+  }
+  
+  ol, ul, label, .btn, input {
+    font-size: 1.25vw;
+  }
+  
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 10px;
+  }
+  
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: Beige;
+  }
+  
+  
+  #typeInput {
+    width: 90%;
+  }
+  
+  .wrapper {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+  }
+  
+  .btn {
+    margin: 10px;
+  }
+  
+  .logout {
+    grid-column: 4;
+    grid-row: 1;
+  }
+  
+  .leaderboard {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  
+  .level {
+    text-align: center;
+    grid-column: 2 / 4;
+    grid-row: 2;
+  }
+  
+  .notifications {
+    grid-column: 4;
+    grid-row: 2;
+  }
+  
+  .notification {
+    animation-duration: 1s;
+    animation-name: slidein;
+  }
+  
+  @keyframes slidein {
+    0% {
+      transform: translateX(200%);
+    }
+    
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  
+  footer {
+    flex: 0 50px;
+    background: burlywood;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    min-width: 100vw;
+  }
+  
