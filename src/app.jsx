@@ -24,9 +24,7 @@ function App() {
           <Route
             path='/'
             element={
-              <Login
-                userName={userName}
-              />
+              <Login/>
             }
             exact
           />
