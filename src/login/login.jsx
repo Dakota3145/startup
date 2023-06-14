@@ -53,28 +53,28 @@ export function Login() {
 
     return (
         <main>
-        <div style={{display: "flex", justifyContent: "center"}}>
-            <label htmlFor="loginUsername">Username:</label>
-            <input type="text" id="loginUsername" name="loginUsername" placeholder="Enter Username" /><br /><br />
-        </div>
-        <div style={{display: "flex", justifyContent: "center"}}>
-            <label htmlFor="loginPassword">Password:</label>
-            <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter Password" /><br /><br />
-        </div>
-        <div style={{display: "flex", justifyContent: "center"}}>
-            <button className="btn btn-primary" onClick={() => login()} role="button">Login</button>
-            <button className="btn btn-primary" onClick={() => navigate('/signup')} role="button">No Account? Sign up Here</button>
-        </div>
-        <div className="modal fade" id="loginModal" tabIndex="-1">
-            <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content text-dark">
-                    <div className="modal-body" id="loginModalText">Username not Found</div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <label htmlFor="loginUsername">Username:</label>
+                <input type="text" id="loginUsername" name="loginUsername" placeholder="Enter Username" /><br /><br />
+            </div>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <label htmlFor="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter Password" /><br /><br />
+            </div>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <button className="btn btn-primary" onClick={() => login()} role="button">Login</button>
+                <button className="btn btn-primary" onClick={() => navigate('/signup')} role="button">No Account? Sign up Here</button>
+            </div>
+            <div className="modal fade" id="loginModal" tabIndex="-1">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content text-dark">
+                        <div className="modal-body" id="loginModalText">Username not Found</div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </main>
     );
 }
