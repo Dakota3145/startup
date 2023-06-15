@@ -136,18 +136,25 @@ export function Typing() {
     function updateTimerText(input) {
         timerText = input;
     }
+    let x;
+    let curr;
+    let numSeconds;
+    let countDownDate;
+    let now;
+    let distance;
+    let seconds;
 
     function setTimer() {
         // Set the date we're counting down to
-        let curr = new Date().getTime();
-        let numSeconds = 22;
-        let countDownDate = new Date(curr + numSeconds*1000);
+        curr = new Date().getTime();
+        numSeconds = 22;
+        countDownDate = new Date(curr + numSeconds*1000);
 
         // Update the count down every 1 second
-        let x = setInterval(function() {
-            let now = new Date().getTime();
-            let distance = countDownDate - now;
-            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        x = setInterval(function() {
+            now = new Date().getTime();
+            distance = countDownDate - now;
+            seconds = Math.floor((distance % (1000 * 60)) / 1000);
             // document.getElementById("timer").innerText = seconds + "s";
             timerText = seconds + "s";
             document.getElementById("timer").innerHTML = seconds + "s";
@@ -332,11 +339,17 @@ export function Typing() {
     //     ) 
     // }
 
+    function navigateToHome() {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "EXPIRED";
+        navigate('/');
+    }
+
     return (
         <main>
         <div className="wrapper">
           <div className="logout">
-            <button id="logoutBtn" className="btn btn-primary" onClick={() => navigate('/')}>{logoutText}</button>
+            <button id="logoutBtn" className="btn btn-primary" onClick={() => navigateToHome()}>{logoutText}</button>
           </div>
           <div className="leaderboard">
             <p>Leaderboard</p>

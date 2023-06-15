@@ -41,7 +41,8 @@ export function Login() {
                 sessionStorage.setItem("currUsername", usernameInput);
                 sessionStorage.setItem("currFName", firstNames[usernameIndex]);
                 sessionStorage.setItem("logoutFName", firstNames[usernameIndex] + " - Logout");
-                window.open("typing", "_self");
+                // window.open("typing", "_self");
+                navigate('typing');
             }
             else {
                 modalText.innerText = "The Password inputted doesn't match the password saved for that username";

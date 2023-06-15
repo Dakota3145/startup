@@ -73,7 +73,8 @@ export function Signup() {
                     password: passwordInput
                 }
                 addUser(user);
-                window.open("typing", "_self");
+                // window.open("typing", "_self");
+                navigate('typing');
             }
             //if username is already saved, show error modal
             else {
