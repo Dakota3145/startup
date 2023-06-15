@@ -7,6 +7,10 @@ export function Signup() {
     let firstNames = [];
     let passwords = [];
 
+    const [firstnameInput, setFirstnameInput] = React.useState('');
+    const [usernameInput, setUsernameInput] = React.useState('');
+    const [passwordInput, setPasswordInput] = React.useState('');
+
 
     async function getUsersData() {
         const response = await fetch('/api/users');
@@ -38,16 +42,16 @@ export function Signup() {
         if (event != null) {
             event.preventDefault();
         }
-        let fnameInput = document.querySelector("#signupFName").value;
-        let usernameInput = document.querySelector("#signupUsername").value;
+        // let fnameInput = document.querySelector("#signupFName").value;
+        // let usernameInput = document.querySelector("#signupUsername").value;
         let usernameIndex = usernames.indexOf(usernameInput);
         let modalEl = document.querySelector('#signupModal');
         let modalText = document.querySelector('#signupModalText');
         const msgModal = new bootstrap.Modal(modalEl, {});
-        let passwordInput = document.querySelector("#signupPassword").value;
+        // let passwordInput = document.querySelector("#signupPassword").value;
         let errorStr = "";
         //only allow new usernames
-        if (fnameInput == "") {
+        if (firstnameInput == "") {
             errorStr += "You need to enter a first name\n";
         }
         if (usernameInput == "") {
@@ -59,13 +63,13 @@ export function Signup() {
         if (errorStr == "") {
             if (usernameIndex == -1) {
                 sessionStorage.setItem("currUsername", usernameInput);
-                sessionStorage.setItem("currFName", fnameInput);
+                sessionStorage.setItem("currFName", firstnameInput);
                 // let logoutEl = document.querySelector("#logoutBtn");
                 // logoutEl.innerText = currFName + " - Logout";
-                sessionStorage.setItem("logoutFName", fnameInput + " - Logout");
+                sessionStorage.setItem("logoutFName", firstnameInput + " - Logout");
                 let user = {
                     username: usernameInput,
-                    firstname: fnameInput,
+                    firstname: firstnameInput,
                     password: passwordInput
                 }
                 addUser(user);
@@ -88,15 +92,15 @@ export function Signup() {
         <main>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <label htmlFor="signupFName">Enter First Name:</label>
-                <input type="text" id="signupFName" name="signupFName" placeholder="Enter First Name" /><br /><br />
+                <input type="text" id="signupFName" name="signupFName" placeholder="Enter First Name" value={firstnameInput} onChange={(e) => setFirstnameInput(e.target.value)}/><br /><br />
             </div>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <label htmlFor="signupUsername">Create a Username:</label>
-                <input type="text" id="signupUsername" name="signupUsername" placeholder="Enter Username" /><br /><br />
+                <input type="text" id="signupUsername" name="signupUsername" placeholder="Enter Username" value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)}/><br /><br />
             </div>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <label htmlFor="signupPassword">Create a Password:</label>
-                <input type="password" id="signupPassword" name="signupPassword" placeholder="Enter Password" /><br /><br />
+                <input type="password" id="signupPassword" name="signupPassword" placeholder="Enter Password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)}/><br /><br />
             </div>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <button className="btn btn-primary" onClick={() => navigate('/')} role="button">Back to Login</button>

@@ -6,6 +6,8 @@ export function Login() {
     let usernames = [];
     let firstNames = [];
     let passwords = [];
+    const [usernameInput, setUsernameInput] = React.useState('');
+    const [passwordInput, setPasswordInput] = React.useState('');
 
     async function getUsersData() {
         try {
@@ -26,14 +28,15 @@ export function Login() {
         if (event != null) {
             event.preventDefault();
         }
-        let usernameInput = document.querySelector("#loginUsername").value;
+        // let usernameInput = document.querySelector("#loginUsername").value;
+        // let usernameIndex = usernames.indexOf(usernameInput);
         let usernameIndex = usernames.indexOf(usernameInput);
         let modalEl = document.querySelector('#loginModal');
         let modalText = document.querySelector('#loginModalText');
         const msgModal = new bootstrap.Modal(modalEl, {});
         //if the username is found, compare it with the password and then open typing.html
         if (usernameIndex > -1) {
-            let passwordInput = document.querySelector("#loginPassword").value;
+            // let passwordInput = document.querySelector("#loginPassword").value;
             if (passwordInput == passwords[usernameIndex]) {
                 sessionStorage.setItem("currUsername", usernameInput);
                 sessionStorage.setItem("currFName", firstNames[usernameIndex]);
@@ -55,11 +58,11 @@ export function Login() {
         <main>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <label htmlFor="loginUsername">Username:</label>
-                <input type="text" id="loginUsername" name="loginUsername" placeholder="Enter Username" /><br /><br />
+                <input type="text" id="loginUsername" name="loginUsername" placeholder="Enter Username" value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)}/><br /><br />
             </div>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <label htmlFor="loginPassword">Password:</label>
-                <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter Password" /><br /><br />
+                <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter Password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)}/><br /><br />
             </div>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <button className="btn btn-primary" onClick={() => login()} role="button">Login</button>
