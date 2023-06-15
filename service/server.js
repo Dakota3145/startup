@@ -40,10 +40,10 @@ apiRouter.delete('/score', async (req, res) => {
   res.send(leaderboard);
 });
 
-// app.use(express.static('public'));
+app.use(express.static('public'));
 
-// app.use((_req, res) => {
-//   res.sendFile('index.html', { root: 'public' });
-// });
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
+});
 
 module.exports = app;
