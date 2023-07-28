@@ -6,6 +6,7 @@ import { Typing } from './typing/typing.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
+
 function App() {
   const [userName, setUserName] = React.useState(sessionStorage.getItem('userName') || '');
 
@@ -13,7 +14,7 @@ function App() {
     <BrowserRouter>
         <header>
             <img
-                src="https://img.uxwing.com/wp-content/themes/uxwing/download/web-app-development/typing-icon.svg"
+                src="/typing-icon.png"
                 width="100"
             />
             <h1>The Typing Game</h1>
